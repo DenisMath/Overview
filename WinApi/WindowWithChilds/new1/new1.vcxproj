@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClInclude Include="bpoint.h" />
     <ClInclude Include="extpair.h" />
+    <ClInclude Include="extpairWT.h" />
     <ClInclude Include="fractal.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="matrix.h" />

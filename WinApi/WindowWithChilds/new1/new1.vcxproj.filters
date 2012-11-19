@@ -41,6 +41,9 @@
     <ClInclude Include="fractal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="extpairWT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="main.rc">

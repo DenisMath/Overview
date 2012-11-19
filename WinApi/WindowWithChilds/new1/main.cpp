@@ -429,7 +429,7 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDC_PRINTEPS:
-			f.writetops();
+			f.writetoEps();
 			break;
 		case IDC_ADD:
 			basicPointsWindows.insert(TempChild = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CHILDDLG), (HWND)hMainDlg, ChildDlgProc));
@@ -498,10 +498,8 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 		if( SUCCEEDED( InitVB() ) )
 		{
 			// Show the window
-			
 			Render();
-			UpdateWindow( hWndDirectX );
-			
+			UpdateWindow( hWndDirectX );	
 		}
 	}
 			//SendMessage(hWnd, WM_PAINT, NULL, NULL);
@@ -573,7 +571,6 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		PostQuitMessage( 0 );
 		return 0;
 	}
-
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }
 
@@ -646,9 +643,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	hWndDirectX = CreateWindow( L"D3D Tutorial", L"Self-Affine Plite",
 		WS_OVERLAPPEDWINDOW, lpMainDialogRect->right, 0, lpDesktopWindow->right - lpMainDialogRect->right , lpDesktopWindow->bottom,
 		NULL, NULL, wc.hInstance, NULL );
-
-
-
 
 	// Initialize Direct3D
 	if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
