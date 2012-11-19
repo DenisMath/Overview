@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "resource.h"
-
+#include<string>
 // Global Variables:
 HINSTANCE hInst;								// current instance
 LRESULT CALLBACK	DlgProc(HWND, UINT, WPARAM, LPARAM);
@@ -11,6 +11,7 @@ LRESULT CALLBACK DlgProc1(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {BOOL bRet = FALSE;
 	BOOL bCmd = FALSE;
 	char sText[256];
+	double temp;
 	switch (message) 
 	{
 		case WM_INITDIALOG:
@@ -30,7 +31,11 @@ LRESULT CALLBACK DlgProc1(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		case IDOK:
 			if(GetDlgItemText(hWnd,IDC_EDIT1,sText,255))
+			{
+               temp = atof(sText);
+			   sprintf(sText, "%f", temp+1);
 			   SetDlgItemText(hWnd,IDC_EDIT2,sText);
+			}
 			break;
 		case IDM_EXIT:
 		case IDCANCEL: 

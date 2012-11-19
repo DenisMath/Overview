@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "getDouble", "getDouble.vcxproj", "{C666FEB8-7729-6902-2600-714A5D5373C8}"
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "getDouble", "getDouble.vcproj", "{78008B1C-1BAF-457D-A06C-A3B439F057A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C666FEB8-7729-6902-2600-714A5D5373C8}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C666FEB8-7729-6902-2600-714A5D5373C8}.Debug|Win32.Build.0 = Debug|Win32
-		{C666FEB8-7729-6902-2600-714A5D5373C8}.Release|Win32.ActiveCfg = Release|Win32
-		{C666FEB8-7729-6902-2600-714A5D5373C8}.Release|Win32.Build.0 = Release|Win32
+		{78008B1C-1BAF-457D-A06C-A3B439F057A0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{78008B1C-1BAF-457D-A06C-A3B439F057A0}.Debug|Win32.Build.0 = Debug|Win32
+		{78008B1C-1BAF-457D-A06C-A3B439F057A0}.Release|Win32.ActiveCfg = Release|Win32
+		{78008B1C-1BAF-457D-A06C-A3B439F057A0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
