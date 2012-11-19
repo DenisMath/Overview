@@ -38,7 +38,7 @@ struct CUSTOMVERTEX
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE)
 
 std::vector<std::pair<double, double>> GraphicsPoints ;
-CUSTOMVERTEX* Vertices;
+CUSTOMVERTEX* Vertices = new CUSTOMVERTEX[2];
 
 HWND hMainDlg, TempChild, hWndDirectX;
 HINSTANCE hInst;
@@ -55,6 +55,7 @@ Fractal f;
 void SetBufferPoints()
 {
 	int temp = GraphicsPoints.size();
+	delete[] Vertices;
 	Vertices = new CUSTOMVERTEX[temp];
 	for(int i=0; i<temp; i++)
 	{
@@ -62,7 +63,7 @@ void SetBufferPoints()
 		Vertices[i].y = GraphicsPoints[i].second ;
 		Vertices[i].z = 0.5f;
 		Vertices[i].rhw = 1.0f ;
-		Vertices[i].color = 0x77777777 ;
+		Vertices[i].color = 0xFFD700 ;
 	}
 };
 
@@ -179,7 +180,7 @@ VOID Cleanup()
 VOID Render()
 {
 	// Clear the backbuffer to a blue color
-	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB( 255, 255, 255 ), 1.0f, 0 );
+	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB( 25, 25, 112 ), 1.0f, 0 );
 
 	// Begin the scene
 	if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
@@ -341,6 +342,7 @@ void AddBasicPoint(const HWND &hWnd, Fractal &fractal )
 BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	double pos;
 	static double  temp_pos = 100; 
+	int randSize = 7;
 	double temp;
 	double a11, a12, a21, a22, xCoord, yCoord;
 	BasicPoint bpoint;
@@ -383,7 +385,7 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			break;
 			case IDC_RANDOM:
 				GetBasicPoint(hWnd, bpoint);
-				SetBasicPoint(hWnd, (rand() % 5) - 2, (rand() % 5) - 2, (rand() % 5) - 2, (rand() % 5) - 2, bpoint.point.xKoord, bpoint.point.yKoord);
+				SetBasicPoint(hWnd, (rand() % randSize) - 2, (rand() % randSize) - 2, (rand() % randSize) - 2, (rand() % randSize) - 2, bpoint.point.xKoord, bpoint.point.yKoord);
 				break;
 		case IDOK:
 		case IDCANCEL:
@@ -426,7 +428,7 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			break;*/
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
-		case IDC_PRINTPS:
+		case IDC_PRINTEPS:
 			f.writetops();
 			break;
 		case IDC_ADD:
