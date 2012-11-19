@@ -422,6 +422,16 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	Extpair extpair;
 	Matrix matrix;
 	int iteration;
+	/*CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETE,
+				IDC_BUILDING,
+				IDC_COMPLETE);
+	CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETEEPS,
+				IDC_BUILDINGEPS,
+				IDC_COMPLETEEPS);*/
 	switch(uMsg) {
 		/*case WM_CREATE:
 			SetDlgItemText(hWnd,IDC_ITERATIONNUMBER,L"1");
@@ -510,6 +520,40 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 				IDC_COMPLETE);
 			break;
 		case IDC_COMPLETE:
+			CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETE,
+				IDC_BUILDING,
+				IDC_COMPLETE);
+			/*CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETE,
+				IDC_BUILDING,
+				IDC_COMPLETE);*/
+			break;
+			case IDC_BUILDINGEPS:
+			/*SendMessage(GetDlgItem(hMainDlg,IDC_COMPLETE),BM_SETCHECK,1,0); 
+			SendMessage(GetDlgItem(hMainDlg,IDC_BUILDING),BM_SETCHECK,0,0); */
+			CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETEEPS,
+				IDC_BUILDINGEPS,
+				IDC_BUILDINGEPS);
+			
+			f.writetoEps();
+			//SendMessage(hWnd, WM_PAINT, NULL, NULL);
+	CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETEEPS,
+				IDC_BUILDINGEPS,
+				IDC_COMPLETEEPS);
+			break;
+		case IDC_COMPLETEEPS:
+			CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETEEPS,
+				IDC_BUILDINGEPS,
+				IDC_COMPLETEEPS);
 			/*CheckRadioButton(
 				hMainDlg,
 				IDC_COMPLETE,
