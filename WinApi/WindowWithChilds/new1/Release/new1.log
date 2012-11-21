@@ -1,0 +1,84 @@
+﻿Build started 11/19/2012 9:14:37 PM.
+     1>Project "D:\GitH_My\Overview\WinApi\WindowWithChilds\new1\new1.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\new1.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\resource2.h(5): warning C4005: 'IDD_MAINDLG' : macro redefinition
+                 d:\gith_my\overview\winapi\windowwithchilds\new1\main.h(1) : see previous definition of 'IDD_MAINDLG'
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\resource2.h(6): warning C4005: 'IDD_CHILDDLG' : macro redefinition
+                 d:\gith_my\overview\winapi\windowwithchilds\new1\main.h(3) : see previous definition of 'IDD_CHILDDLG'
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\extpair.h(59): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\extpair.h(59): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(130): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(137): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(171): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(189): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(249): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(268): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(297): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(297): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(298): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(298): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(298): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(298): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(18): warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
+     1>main.cpp(62): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
+     1>main.cpp(63): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
+     1>main.cpp(212): warning C4996: '_gcvt': This function or variable may be unsafe. Consider using _gcvt_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdlib.h(729) : see declaration of '_gcvt'
+     1>main.cpp(286): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(287): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(289): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(290): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(291): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(292): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(332): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(333): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(334): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(334): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(334): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(334): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(334): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(334): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(347): warning C4101: 'xCoord' : unreferenced local variable
+     1>main.cpp(347): warning C4101: 'a12' : unreferenced local variable
+     1>main.cpp(347): warning C4101: 'a21' : unreferenced local variable
+     1>main.cpp(347): warning C4101: 'yCoord' : unreferenced local variable
+     1>main.cpp(347): warning C4101: 'a11' : unreferenced local variable
+     1>main.cpp(347): warning C4101: 'a22' : unreferenced local variable
+     1>main.cpp(469): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdlib.h(645) : see declaration of '_itow'
+     1>main.cpp(567): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdlib.h(645) : see declaration of '_itow'
+     1>main.cpp(420): warning C4101: 'xCoord' : unreferenced local variable
+     1>main.cpp(419): warning C4101: 'a12' : unreferenced local variable
+     1>main.cpp(419): warning C4101: 'a21' : unreferenced local variable
+     1>main.cpp(420): warning C4101: 'yCoord' : unreferenced local variable
+     1>main.cpp(419): warning C4101: 'a11' : unreferenced local variable
+     1>main.cpp(419): warning C4101: 'a22' : unreferenced local variable
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GitH_My\Overview\WinApi\WindowWithChilds\Release\new1.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\new1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\GitH_My\Overview\WinApi\WindowWithChilds\Release\new1.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GitH_My\Overview\WinApi\WindowWithChilds\Release\new1.lib" /MACHINE:X86 Release\main.res
+         Release\main.obj
+         Generating code
+         Finished generating code
+         new1.vcxproj -> D:\GitH_My\Overview\WinApi\WindowWithChilds\Release\new1.exe
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\GitH_My\Overview\WinApi\WindowWithChilds\Release\new1.exe;#1" /manifest Release\new1.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Release\new1.unsuccessfulbuild".
+         Touching "Release\new1.lastbuildstate".
+     1>Done Building Project "D:\GitH_My\Overview\WinApi\WindowWithChilds\new1\new1.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.62
