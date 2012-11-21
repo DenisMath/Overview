@@ -6,53 +6,52 @@
 //using namespace std;
 
 inline
-double max(double x, double y)
+	double maxN(double x, double y)
 { 
-	return (x>y) ? x : y ;
+	return ((x>y) ? x : y) ;
 }
 
-class ExtpairWT: public Extpair {
-	public:
-	ExtpairWT(float x=0, float y=0, float t = 1):Extpair(x,y), tension(t)
+class ExtpairWT{
+public:
+	ExtpairWT( )
 	{ }
 
-	float tension;
-	
-	friend ExtpairWT operator+(const ExtpairWT &a1, const ExtpairWT &a2); 
-	friend ExtpairWT operator-(const ExtpairWT &a1, const ExtpairWT &a2); 
-	friend ExtpairWT operator*(const ExtpairWT &a1, const ExtpairWT &a2); 
-	friend bool operator==(const ExtpairWT &a1, const ExtpairWT &a2); 
-	friend bool operator<(const ExtpairWT &a1, const ExtpairWT &a2); 
-	ExtpairWT &operator=(const ExtpairWT &m){
-	xKoord=m.xKoord;
-	yKoord=m.yKoord;
-	tension = m.tension;
-return *this;
+	ExtpairWT( Extpair e, float t)
+	{ 
+	extpair = e;
+	tension = t;
 	}
 
-ExtpairWT  operator-(const ExtpairWT& a1){
-	ExtpairWT tmp(-a1.xKoord, -a1.yKoord, a1.yKoord);
-	return tmp;
-}
+	Extpair extpair;
+	float tension;
+
+	ExtpairWT &operator=(const ExtpairWT &m){
+		extpair =m.extpair;
+		tension = m.tension;
+		tension = m.tension;
+		return *this;
+	}
+
+	ExtpairWT  operator-(){
+		ExtpairWT tmp( -extpair, -tension);
+		return tmp;
+	}
+	 //Extpair new1 = -a1.extpair;
+	friend bool operator==(const ExtpairWT &a1, const ExtpairWT &a2); 
+	friend bool operator<(const ExtpairWT &a1, const ExtpairWT &a2); 
 };
 
 inline
- ExtpairWT operator+(const ExtpairWT &a1, const ExtpairWT &a2){
-	ExtpairWT tmp(a1.xKoord+a2.xKoord, a1.yKoord+a2.yKoord, max(a1.tension, a2.tension));
-	return tmp;
+bool operator==(const ExtpairWT &a1, const ExtpairWT &a2)
+{
+	return (a1.extpair == a2.extpair )&&(a1.tension == a2.tension);
 }
 
-inline ExtpairWT operator-(const ExtpairWT &a1, const ExtpairWT &a2){
-	ExtpairWT tmp(a1.xKoord-a2.xKoord, a1.yKoord-a2.yKoord, a1.tension);
-	return tmp;
+inline
+bool operator<(const ExtpairWT &a1, const ExtpairWT &a2)
+{
+	return ( a1.extpair < a2.extpair ) || ((a1.extpair == a2.extpair)&&(a1.tension < a2.tension));
 }
 
-inline bool operator==(const ExtpairWT &a1, const ExtpairWT &a2){
-	return ((a1.xKoord==a2.xKoord)&&(a1.yKoord==a2.yKoord)&&(a1.tension == a2.tension));
-}
-
-inline bool operator<(const ExtpairWT &a1, const ExtpairWT &a2){
-	return ((a1.xKoord<a2.xKoord)||((a1.xKoord==a2.xKoord)&&(a1.yKoord<a2.yKoord))||((a1.xKoord==a2.xKoord)&&(a1.yKoord==a2.yKoord)&&(a1.tension == a2.tension)));
-}
 
 #endif

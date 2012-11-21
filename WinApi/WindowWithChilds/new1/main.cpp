@@ -38,6 +38,7 @@ struct CUSTOMVERTEX
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE)
 
 std::vector<std::pair<double, double>> GraphicsPoints ;
+std::vector<double> Tensions;
 CUSTOMVERTEX* Vertices = new CUSTOMVERTEX[2];
 
 HWND hMainDlg, TempChild, hWndDirectX;
@@ -52,6 +53,16 @@ wchar_t buff[256];
 std::set<HWND> basicPointsWindows;
 Fractal f;
 
+int toColor(double x, double max_temp)
+{
+	//return 0x111111 * pow(15,floor(max_temp/x));
+	//return 0x111111 * ((int)floor(log(x)/log(max_temp))%16);
+	//return 0x111111 * ((int)floor(log(x)/log(max_temp))%16);
+	return 0x000001 * ((int)floor((max_temp/x)*0x0FFFFF)%0xFFFFFF);
+}
+
+
+
 void SetBufferPoints()
 {
 	int temp = GraphicsPoints.size();
@@ -64,6 +75,22 @@ void SetBufferPoints()
 		Vertices[i].z = 0.5f;
 		Vertices[i].rhw = 1.0f ;
 		Vertices[i].color = 0xFFD700 ;
+	}
+};
+
+void SetBufferPointsW()
+{
+	int temp = GraphicsPoints.size();
+	double temp_max = *max_element(Tensions.begin(),Tensions.end());
+	delete[] Vertices;
+	Vertices = new CUSTOMVERTEX[temp];
+	for(int i=0; i<temp; i++)
+	{
+		Vertices[i].x = GraphicsPoints[i].first ;
+		Vertices[i].y = GraphicsPoints[i].second ;
+		Vertices[i].z = 0.5f;
+		Vertices[i].rhw = 1.0f ;
+		Vertices[i].color = toColor(Tensions[i], temp_max) ; ;
 	}
 };
 
@@ -177,6 +204,8 @@ VOID Cleanup()
 // Name: Render()
 // Desc: Draws the scene
 //-----------------------------------------------------------------------------
+
+
 VOID Render()
 {
 	// Clear the backbuffer to a blue color
@@ -211,13 +240,13 @@ void convertDoubleToWchar(double input, wchar_t* output)
 	char cbuff[256];
 	_gcvt(input, 7, cbuff);
 	MultiByteToWideChar(
-     CP_UTF8,
-   0,
-       cbuff,
-  256,
-  output,
-  256
-);
+		CP_UTF8,
+		0,
+		cbuff,
+		256,
+		output,
+		256
+		);
 	//memset(buff,0,sizeof(wchar_t)*256);
 }
 
@@ -228,8 +257,8 @@ void SetBasicPoint(HWND &hWnd, double a11,double a12,double a21,double a22,doubl
 	//memset(buff,0,sizeof(wchar_t)*256);
 	//sprintf(a11,buff,256);
 	//sprintf( buff, "%e", a11 );
-	  //wcstof( const wchar_t* str, wchar_t** str_end )
-	
+	//wcstof( const wchar_t* str, wchar_t** str_end )
+
 	//FormatFloat
 	//memset(buff,0,sizeof(wchar_t)*256);
 	convertDoubleToWchar(a11, buff);
@@ -253,43 +282,43 @@ void GetBasicPoint(const HWND &hWnd, BasicPoint &bpoint )
 	double a11, a12, a21, a22, xCoord, yCoord;
 	Extpair extpair;
 	GetDlgItemText(hWnd,
-                              IDC_A11,
-                               buff,
-                               256);
-				a11 = _wtof(buff);
-				GetDlgItemText(hWnd,
-                              IDC_A12,
-                               buff,
-                               256);
-				a12 = _wtof(buff);
-				GetDlgItemText(hWnd,
-                              IDC_A21,
-                               buff,
-                               256);
-				a21 = _wtof(buff);
-				GetDlgItemText(hWnd,
-                              IDC_A22,
-                               buff,
-                               256);
-				a22 = _wtof(buff);
-				GetDlgItemText(hWnd,
-                              IDC_X,
-                               buff,
-                               256);
-				xCoord = _wtof(buff);
-				GetDlgItemText(hWnd,
-                              IDC_Y,
-                               buff,
-                               256);
-				yCoord = _wtof(buff);
-				 
-				extpair.xKoord = xCoord;
-				extpair.yKoord = yCoord;
-				bpoint.point = extpair;
-				bpoint.transform.oo = a11;
-				bpoint.transform.ot = a12;
-				bpoint.transform.to = a21;
-				bpoint.transform.tt = a22;			
+		IDC_A11,
+		buff,
+		256);
+	a11 = _wtof(buff);
+	GetDlgItemText(hWnd,
+		IDC_A12,
+		buff,
+		256);
+	a12 = _wtof(buff);
+	GetDlgItemText(hWnd,
+		IDC_A21,
+		buff,
+		256);
+	a21 = _wtof(buff);
+	GetDlgItemText(hWnd,
+		IDC_A22,
+		buff,
+		256);
+	a22 = _wtof(buff);
+	GetDlgItemText(hWnd,
+		IDC_X,
+		buff,
+		256);
+	xCoord = _wtof(buff);
+	GetDlgItemText(hWnd,
+		IDC_Y,
+		buff,
+		256);
+	yCoord = _wtof(buff);
+
+	extpair.xKoord = xCoord;
+	extpair.yKoord = yCoord;
+	bpoint.point = extpair;
+	bpoint.transform.oo = a11;
+	bpoint.transform.ot = a12;
+	bpoint.transform.to = a21;
+	bpoint.transform.tt = a22;			
 }
 
 
@@ -299,41 +328,41 @@ void AddBasicPoint(const HWND &hWnd, Fractal &fractal )
 	double a11, a12, a21, a22, xCoord, yCoord;
 	Extpair extpair;
 	GetDlgItemText(hWnd,
-                              IDC_A11,
-                               buff,
-                               256);
-				a11 = _wtof(buff);
-				GetDlgItemText(hWnd,
-                              IDC_A12,
-                               buff,
-                               256);
-				a12 = _wtof(buff);
-				GetDlgItemText(hWnd,
-                              IDC_A21,
-                               buff,
-                               256);
-				a21 = _wtof(buff);
-				GetDlgItemText(hWnd,
-                              IDC_A22,
-                               buff,
-                               256);
-				a22 = _wtof(buff);
-				GetDlgItemText(hWnd,
-                              IDC_X,
-                               buff,
-                               256);
-				xCoord = _wtof(buff);
-				GetDlgItemText(hWnd,
-                              IDC_Y,
-                               buff,
-                               256);
-				yCoord = _wtof(buff);
-				 
-				extpair.xKoord = xCoord;
-				extpair.yKoord = yCoord;
-				fractal.addpoint(xCoord, yCoord, a11, a12, a21, a22);
-				fractal.fracset.push_back(extpair);
-				
+		IDC_A11,
+		buff,
+		256);
+	a11 = _wtof(buff);
+	GetDlgItemText(hWnd,
+		IDC_A12,
+		buff,
+		256);
+	a12 = _wtof(buff);
+	GetDlgItemText(hWnd,
+		IDC_A21,
+		buff,
+		256);
+	a21 = _wtof(buff);
+	GetDlgItemText(hWnd,
+		IDC_A22,
+		buff,
+		256);
+	a22 = _wtof(buff);
+	GetDlgItemText(hWnd,
+		IDC_X,
+		buff,
+		256);
+	xCoord = _wtof(buff);
+	GetDlgItemText(hWnd,
+		IDC_Y,
+		buff,
+		256);
+	yCoord = _wtof(buff);
+
+	extpair.xKoord = xCoord;
+	extpair.yKoord = yCoord;
+	fractal.addpoint(xCoord, yCoord, a11, a12, a21, a22);
+	fractal.fracset.push_back(extpair);
+
 }
 
 
@@ -347,7 +376,7 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	double a11, a12, a21, a22, xCoord, yCoord;
 	BasicPoint bpoint;
 	switch(uMsg) {
-    case WM_ACTIVATE:
+	case WM_ACTIVATE:
 		TempChild = hWnd;
 		break;
 	case WM_VSCROLL:
@@ -383,10 +412,10 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			//pos = bpoint.transform.oo/temp;
 			//pos = 1;
 			break;
-			case IDC_RANDOM:
-				GetBasicPoint(hWnd, bpoint);
-				SetBasicPoint(hWnd, (rand() % randSize) - 2, (rand() % randSize) - 2, (rand() % randSize) - 2, (rand() % randSize) - 2, bpoint.point.xKoord, bpoint.point.yKoord);
-				break;
+		case IDC_RANDOM:
+			GetBasicPoint(hWnd, bpoint);
+			SetBasicPoint(hWnd, (rand() % randSize) - 2, (rand() % randSize) - 2, (rand() % randSize) - 2, (rand() % randSize) - 2, bpoint.point.xKoord, bpoint.point.yKoord);
+			break;
 		case IDOK:
 		case IDCANCEL:
 			EndDialog(hWnd, 0);
@@ -423,23 +452,33 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	Matrix matrix;
 	int iteration;
 	/*CheckRadioButton(
-				hMainDlg,
-				IDC_COMPLETE,
-				IDC_BUILDING,
-				IDC_COMPLETE);
+	hMainDlg,
+	IDC_COMPLETE,
+	IDC_BUILDING,
+	IDC_COMPLETE);
 	CheckRadioButton(
-				hMainDlg,
-				IDC_COMPLETEEPS,
-				IDC_BUILDINGEPS,
-				IDC_COMPLETEEPS);*/
+	hMainDlg,
+	IDC_COMPLETEEPS,
+	IDC_BUILDINGEPS,
+	IDC_COMPLETEEPS);*/
 	switch(uMsg) {
 		/*case WM_CREATE:
-			SetDlgItemText(hWnd,IDC_ITERATIONNUMBER,L"1");
-			break;*/
+		SetDlgItemText(hWnd,IDC_ITERATIONNUMBER,L"1");
+		break;*/
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDC_PRINTEPS:
+			CheckDlgButton(
+				hMainDlg,
+				IDC_CHECKEPS,
+				BST_UNCHECKED
+				);
 			f.writetoEps();
+			CheckDlgButton(
+				hMainDlg,
+				IDC_CHECKEPS,
+				BST_CHECKED
+				);
 			break;
 		case IDC_ADD:
 			basicPointsWindows.insert(TempChild = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CHILDDLG), (HWND)hMainDlg, ChildDlgProc));
@@ -470,7 +509,7 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 
 			//ShowWindow(TempChild,nCmdSh);
 			++counter;
-			
+
 			SetDlgItemText(TempChild,IDC_A11,L"0.5");
 			SetDlgItemText(TempChild,IDC_A12,L"0");
 			SetDlgItemText(TempChild,IDC_A21,L"0");
@@ -479,6 +518,47 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			SetDlgItemText(TempChild,IDC_Y,L"100.0");
 			//DialogBox(hInst, MAKEINTRESOURCE(IDD_CHILDDLG), hMainDlg, ChildDlgProc);
 			break;
+		case IDOK:
+			
+			break;
+			case IDC_DRAW:
+				CheckDlgButton(
+				hMainDlg,
+				IDC_CHECKEPS,
+				BST_UNCHECKED
+				);
+			
+			
+			iteration = GetDlgItemInt(hMainDlg, IDC_ITERATIONNUMBER, NULL, FALSE );
+			f.fracsetW.clear();
+			f.basicpoints.clear();
+			//at = basicPointsWindows.begin();
+			for(at = basicPointsWindows.begin(); at != basicPointsWindows.end(); at++)
+			{
+				AddBasicPoint( *at , f );
+			}
+
+			f.buildW(iteration);
+			//buildFractalPolygone(f);
+			wConvertFractalToPairVector(f, GraphicsPoints, Tensions);
+			SetBufferPointsW();
+			// Initialize Direct3D
+			if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
+			{
+				// Create the vertex buffer
+				if( SUCCEEDED( InitVB() ) )
+				{
+					// Show the window
+					Render();
+					UpdateWindow( hWndDirectX );	
+				}
+			}
+			CheckDlgButton(
+				hMainDlg,
+				IDC_CHECKEPS,
+				BST_CHECKED
+				);
+				break;
 		case IDC_BUILDING:
 			/*SendMessage(GetDlgItem(hMainDlg,IDC_COMPLETE),BM_SETCHECK,1,0); 
 			SendMessage(GetDlgItem(hMainDlg,IDC_BUILDING),BM_SETCHECK,0,0); */
@@ -487,7 +567,7 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 				IDC_COMPLETE,
 				IDC_BUILDING,
 				IDC_BUILDING);
-			
+
 			iteration = GetDlgItemInt(hMainDlg, IDC_ITERATIONNUMBER, NULL, FALSE );
 			f.fracset.clear();
 			f.basicpoints.clear();
@@ -496,24 +576,24 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			{
 				AddBasicPoint( *at , f );
 			}
-			
+
 			f.build(iteration);
 			//buildFractalPolygone(f);
 			convertFractalToPairVector(f, GraphicsPoints);
 			SetBufferPoints();
-				// Initialize Direct3D
-	if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
-	{
-		// Create the vertex buffer
-		if( SUCCEEDED( InitVB() ) )
-		{
-			// Show the window
-			Render();
-			UpdateWindow( hWndDirectX );	
-		}
-	}
+			// Initialize Direct3D
+			if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
+			{
+				// Create the vertex buffer
+				if( SUCCEEDED( InitVB() ) )
+				{
+					// Show the window
+					Render();
+					UpdateWindow( hWndDirectX );	
+				}
+			}
 			//SendMessage(hWnd, WM_PAINT, NULL, NULL);
-	CheckRadioButton(
+			CheckRadioButton(
 				hMainDlg,
 				IDC_COMPLETE,
 				IDC_BUILDING,
@@ -526,40 +606,12 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 				IDC_BUILDING,
 				IDC_COMPLETE);
 			/*CheckRadioButton(
-				hMainDlg,
-				IDC_COMPLETE,
-				IDC_BUILDING,
-				IDC_COMPLETE);*/
+			hMainDlg,
+			IDC_COMPLETE,
+			IDC_BUILDING,
+			IDC_COMPLETE);*/
 			break;
-			case IDC_BUILDINGEPS:
-			/*SendMessage(GetDlgItem(hMainDlg,IDC_COMPLETE),BM_SETCHECK,1,0); 
-			SendMessage(GetDlgItem(hMainDlg,IDC_BUILDING),BM_SETCHECK,0,0); */
-			CheckRadioButton(
-				hMainDlg,
-				IDC_COMPLETEEPS,
-				IDC_BUILDINGEPS,
-				IDC_BUILDINGEPS);
-			
-			f.writetoEps();
-			//SendMessage(hWnd, WM_PAINT, NULL, NULL);
-	CheckRadioButton(
-				hMainDlg,
-				IDC_COMPLETEEPS,
-				IDC_BUILDINGEPS,
-				IDC_COMPLETEEPS);
-			break;
-		case IDC_COMPLETEEPS:
-			CheckRadioButton(
-				hMainDlg,
-				IDC_COMPLETEEPS,
-				IDC_BUILDINGEPS,
-				IDC_COMPLETEEPS);
-			/*CheckRadioButton(
-				hMainDlg,
-				IDC_COMPLETE,
-				IDC_BUILDING,
-				IDC_COMPLETE);*/
-			break;
+		
 		}	// switch(LOWORD(wParam))
 		break;
 	case DELETE_MSG:
@@ -602,13 +654,13 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		break;
 		//hConnectButton=CreateWindow(L"BUTTON",L"Connect to ",WS_CHILD|WS_VISIBLE| BS_DEFPUSHBUTTON,0,0,90,20,hWnd,(HMENU)ID_BUTTON,hInst,NULL);
 		//ShowWindow(hConnectButton, nCmdSh);
-	/*	break;
-	case WM_PAINT:
-	
+		/*	break;
+		case WM_PAINT:
+
 		break;*/
-        case WM_LBUTTONDOWN:
-			SetDlgItemInt(TempChild,IDC_X, LOWORD(lParam) , FALSE);
-			SetDlgItemInt(TempChild,IDC_Y, HIWORD(lParam) , FALSE);
+	case WM_LBUTTONDOWN:
+		SetDlgItemInt(TempChild,IDC_X, LOWORD(lParam) , FALSE);
+		SetDlgItemInt(TempChild,IDC_Y, HIWORD(lParam) , FALSE);
 		break;
 	case WM_DESTROY:
 		Cleanup();
@@ -626,7 +678,7 @@ BOOL WINAPI MainDlgProc1( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		/*case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDC_BUTTON1:
-			break;
+		break;
 		}
 		break;*/
 	case WM_CREATE:
@@ -667,7 +719,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	//}	
 
 	buildFractalPolygone(f, 9, 0.4, 2 );
-	
+
 	convertFractalToPairVector(f, GraphicsPoints);
 	SetBufferPoints();
 	// Register the window class

@@ -2,6 +2,8 @@
 #define MATRIX
 //#include <iostream>
 #include "extpair.h"
+#include "extpairWT.h"
+#include <math.h>
 
 //using namespace std;
 class Matrix {
@@ -15,11 +17,14 @@ class Matrix {
 	float to;
 	float tt;
 
+	double GetTension()
+	{
+		return sqrt(oo*oo+ot*ot+tt*tt+to*to);
+	}
+
 	Extpair multRow(const Extpair &v)//mult 2x2 matrix on row vector;
 	{
 		Extpair tmp( oo*(v.xKoord)+ot*(v.yKoord) , to*(v.xKoord)+tt*(v.yKoord) );
-		/*tmp.xKoord=(oo*(v.xKoord)+ot*(v.yKoord));
-		tmp.yKoord=(to*(v.xKoord)+tt*(v.yKoord));*/
 		return tmp;
 	}
 

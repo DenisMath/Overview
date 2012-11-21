@@ -10,6 +10,10 @@ class Extpair {
 	Extpair(float x=0,float y=0):xKoord(x),yKoord(y)
 	{ }
 
+	Extpair(const Extpair& x)
+	{ xKoord = x.xKoord;
+	yKoord = x.yKoord; }
+
 	float xKoord;
 	float yKoord;
 	
@@ -21,14 +25,15 @@ class Extpair {
 	Extpair &operator=(const Extpair &m){
 	xKoord=m.xKoord;
 	yKoord=m.yKoord;
-return *this;
+    return *this;
 	}
-Extpair  operator-(const Extpair& a1){
-	Extpair tmp;
-	tmp.xKoord=-a1.xKoord;
-	tmp.yKoord=-a1.yKoord;
+
+	Extpair  operator-(){
+	Extpair tmp(-xKoord,-yKoord);
 	return tmp;
-}
+	}
+
+
 };
 
 

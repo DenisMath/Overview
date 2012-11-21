@@ -86,13 +86,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam,
 	
 	case WM_TIMER:
 		GetClientRect(hWnd, &rect);
-		if (!count) {    // Копирование фона в hMemDcFrame
+		if (!count) 
+		{    // Копирование фона в hMemDcFrame
 			BitBlt(hMemDcFrame, 0, 0, rect.right, rect.bottom, hDC, 0, 0, SRCCOPY);
 			count++;
 		}
 		// Стираем прежнюю картинку мяча
-		SetRect(&rBall, x, y, x + bm.bmWidth, y + bm.bmHeight);
-		FillRect(hMemDcFrame, &rBall, hBkBrush);
+		/*SetRect(&rBall, x, y, x + bm.bmWidth, y + bm.bmHeight);
+		FillRect(hMemDcFrame, &rBall, hBkBrush);*/
 
 		// Новая позиция мяча
 		x += dX;
@@ -149,6 +150,20 @@ void DrawBall(HWND hwnd, HDC hdc, HDC hMemFrameDC, HBITMAP hBmp,
 	BOOL ret = SetWorldTransform(hMemFrameDC, &xform);
 	BitBlt(hMemFrameDC, -bm.bmWidth/2, -bm.bmHeight/2, 
 			bm.bmWidth, bm.bmHeight, hMemDcBall, 0, 0, SRCCOPY);
+	RestoreDC(hMemFrameDC, -1);
+
+	// Мировые преобразования для перемещения и вращения мяча
+	xform.eM11 = (FLOAT) cos(alpha * 2 * Pi / 360);  //вращение
+	xform.eM12 = (FLOAT) -sin(alpha * 2 * Pi / 360);  //вращение
+	xform.eM21 = (FLOAT) sin(alpha * 2 * Pi / 360); //вращение
+	xform.eM22 = (FLOAT) cos(alpha * 2 * Pi / 360)/2;  //вращение
+	xform.eDx  = x - bm.bmWidth / 2;        //смещение по оси x
+	xform.eDy  = y - bm.bmHeight / 2;       //смещение по оси y
+	SaveDC(hMemFrameDC);
+	ret = SetWorldTransform(hMemDcBall, &xform);
+
+	BitBlt(hMemFrameDC, bm.bmWidth/2, bm.bmHeight/2, 
+			bm.bmWidth, bm.bmHeight, hMemDcBall, 0, 0, SRCAND);
 	RestoreDC(hMemFrameDC, -1);
 	
 	// Копирование изображения из hMemFrameDC в hdc

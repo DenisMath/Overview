@@ -2,7 +2,7 @@
 #define BPOINT
 //#include <iostream>
 #include "matrix.h"
-
+//Matrix id(1,0,0,1);
 //using namespace std;
 class BasicPoint {
 public:
@@ -14,8 +14,15 @@ public:
 
 	Extpair linearTr(const Extpair &x)// transform plane point with basic point(affine plate point) transform
 	{
-		Matrix id(1,0,0,1);
+		static Matrix id(1,0,0,1);
 		return transform.multRow(x)+(id-transform).multRow(point);
+	}
+
+	ExtpairWT linearTr(const ExtpairWT &x)// transform plane point with basic point(affine plate point) transform
+	{
+		static Matrix id(1,0,0,1);
+		ExtpairWT temp(transform.multRow(x.extpair)+(id-transform).multRow(point),x.tension*transform.GetTension());
+		return temp;
 	}
 
 	friend bool operator==(const BasicPoint &a1,const BasicPoint &a2); 
