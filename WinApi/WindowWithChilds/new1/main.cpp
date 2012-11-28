@@ -18,6 +18,7 @@
 #define  __cplusplus
 #define PI 3.14159265
 #define ID_BUTTON 3001
+#define IDC_DRAW 3002
 
 
 //-----------------------------------------------------------------------------
@@ -47,21 +48,58 @@ LPRECT lpMainDialogRect = new RECT;
 LPRECT lpMainDialogRectChild = new RECT;
 LPRECT lpDesktopWindow = new RECT;
 #define DELETE_MSG WM_USER + 1
+#define DRAW_MSG WM_USER + 2
+typedef int (*ColorFunc)(double, double);
 int size = 0;
 int nCmdSh = 0 ;
 wchar_t buff[256];
 std::set<HWND> basicPointsWindows;
 Fractal f;
 
-int toColor(double x, double max_temp)
+
+int toColor1(double x, double max_temp)
 {
-	//return 0x111111 * pow(15,floor(max_temp/x));
-	//return 0x111111 * ((int)floor(log(x)/log(max_temp))%16);
-	return 0x000001 * ((int)floor((max_temp/x)*0xFFFFFF)%0xFFFFFF);
-	//return (0x111111) * ((int)floor((max_temp/x)*16)%16);
+	return 0x000001 * ((int)floor((x/max_temp)*0xFFFFFF)%0xFFFFFF);	
+}
+
+int toColor2(double x, double max_temp)
+{
+	return 0x111111 * pow(15,x/max_temp);
+}
+
+int toColor3(double x, double max_temp)
+{
+	return  0x111111 * ((int)floor(log(x)/log(max_temp))%16);
+}
+
+int toColor4(double x, double max_temp)
+{
+	return (0x111111) * ((int)floor((x/max_temp)*16)%16);
+}
+
+int toColor5(double x, double max_temp)
+{
+	return 0x000001 * ((int)floor((max_temp/x)*0xFFFFFF)%0xFFFFFF);	
+}
+
+int toColor6(double x, double max_temp)
+{
+	return 0x111111 * ((int)pow(15,max_temp/x)%16);
+}
+
+int toColor7(double x, double max_temp)
+{
+	return  0x111111 * ((int)floor(log(max_temp)/log(x))%16);
+}
+
+int toColor8(double x, double max_temp)
+{
+	return (0x111111) * ((int)floor((max_temp/x)*16)%16);
 }
 
 
+
+ColorFunc toColor=toColor1;
 
 void SetBufferPoints()
 {
@@ -90,7 +128,7 @@ void SetBufferPointsW()
 		Vertices[i].y = GraphicsPoints[i].second ;
 		Vertices[i].z = 0.5f;
 		Vertices[i].rhw = 1.0f ;
-		Vertices[i].color = toColor(Tensions[i], temp_max) ; ;
+		Vertices[i].color = toColor(Tensions[i], temp_max) ;
 	}
 };
 
@@ -474,9 +512,48 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	IDC_BUILDINGEPS,
 	IDC_COMPLETEEPS);*/
 	switch(uMsg) {
-		/*case WM_CREATE:
+		case WM_CREATE:
 		SetDlgItemText(hWnd,IDC_ITERATIONNUMBER,L"1");
-		break;*/
+		//CreateWindow(L"BUTTON",L"Draw",WS_CHILD|BS_DEFPUSHBUTTON,0,0,90,20,hWnd,(HMENU)IDC_DRAW,GetModuleHandle(NULL),NULL);
+		break;
+		case DRAW_MSG:
+				CheckDlgButton(
+				hMainDlg,
+				IDC_CHECKEPS,
+				BST_UNCHECKED
+				);
+			
+			
+			iteration = GetDlgItemInt(hMainDlg, IDC_ITERATIONNUMBER, NULL, FALSE );
+			f.fracsetW.clear();
+			f.basicpoints.clear();
+			//at = basicPointsWindows.begin();
+			for(at = basicPointsWindows.begin(); at != basicPointsWindows.end(); at++)
+			{
+				AddBasicPoint( *at , f );
+			}
+
+			f.buildW(iteration);
+			//buildFractalPolygone(f);
+			wConvertFractalToPairVector(f, GraphicsPoints, Tensions);
+			SetBufferPointsW();
+			// Initialize Direct3D
+			if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
+			{
+				// Create the vertex buffer
+				if( SUCCEEDED( InitVB() ) )
+				{
+					// Show the window
+					Render();
+					UpdateWindow( hWndDirectX );	
+				}
+			}
+			CheckDlgButton(
+				hMainDlg,
+				IDC_CHECKEPS,
+				BST_CHECKED
+				);
+				break;
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDC_PRINTEPS:
@@ -530,47 +607,39 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			SetDlgItemText(TempChild,IDC_Y,L"100.0");
 			//DialogBox(hInst, MAKEINTRESOURCE(IDD_CHILDDLG), hMainDlg, ChildDlgProc);
 			break;
-		case IDOK:
-			
+		case IDC_COLOR1:
+			toColor = toColor1;
+			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
-			case IDC_DRAW:
-				CheckDlgButton(
-				hMainDlg,
-				IDC_CHECKEPS,
-				BST_UNCHECKED
-				);
+			case IDC_COLOR2:
+			toColor = toColor2;
+			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
+			break;
+			case IDC_COLOR3:
+			toColor = toColor3;
+			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
+			break;
+			case IDC_COLOR4:
+			toColor = toColor4;
+			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
+			break;
+			case IDC_COLOR5:
+			toColor = toColor5;
+			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
+			break;
+			case IDC_COLOR6:
+			toColor = toColor6;
+			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
+			break;
+			case IDC_COLOR7:
+			toColor = toColor7;
+			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
+			break;
+			case IDC_COLOR8:
+			toColor = toColor8;
+			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
+			break;
 			
-			
-			iteration = GetDlgItemInt(hMainDlg, IDC_ITERATIONNUMBER, NULL, FALSE );
-			f.fracsetW.clear();
-			f.basicpoints.clear();
-			//at = basicPointsWindows.begin();
-			for(at = basicPointsWindows.begin(); at != basicPointsWindows.end(); at++)
-			{
-				AddBasicPoint( *at , f );
-			}
-
-			f.buildW(iteration);
-			//buildFractalPolygone(f);
-			wConvertFractalToPairVector(f, GraphicsPoints, Tensions);
-			SetBufferPointsW();
-			// Initialize Direct3D
-			if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
-			{
-				// Create the vertex buffer
-				if( SUCCEEDED( InitVB() ) )
-				{
-					// Show the window
-					Render();
-					UpdateWindow( hWndDirectX );	
-				}
-			}
-			CheckDlgButton(
-				hMainDlg,
-				IDC_CHECKEPS,
-				BST_CHECKED
-				);
-				break;
 		case IDC_BUILDING:
 			/*SendMessage(GetDlgItem(hMainDlg,IDC_COMPLETE),BM_SETCHECK,1,0); 
 			SendMessage(GetDlgItem(hMainDlg,IDC_BUILDING),BM_SETCHECK,0,0); */
@@ -730,7 +799,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	//
 	//}	
 
-	buildFractalPolygone(f, 9, 0.4, 2 );
+	buildFractalPolygone(f, 9, 0.4, 3 );
 
 	convertFractalToPairVector(f, GraphicsPoints);
 	SetBufferPoints();
