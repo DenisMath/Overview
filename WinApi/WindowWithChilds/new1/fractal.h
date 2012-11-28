@@ -39,7 +39,9 @@ public:
 		fracsetW.clear();
 		for(int i=0;i < pntsize; i++)
 		{
+			basicpoints[i].transform.SetTension();
 			temp.extpair = basicpoints[i].point;
+			basicpoints[i].transform.SetTension();
 			temp.tension = basicpoints[i].transform.GetTension();
 			fracsetW.push_back(temp);
 		}

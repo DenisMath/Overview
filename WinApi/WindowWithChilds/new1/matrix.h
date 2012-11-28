@@ -5,21 +5,89 @@
 #include "extpairWT.h"
 #include <math.h>
 
-//using namespace std;
+#define PI 3.14159265
+
+inline
+double alpha_max(double A, double B)
+{
+	if(B > 0) 
+	{
+		if(A > 0)
+		{
+			return atan(B/A)/2;
+		}
+		else if(A < 0)
+		{
+			return PI/4 + atan(A/B)/2;
+		}
+		else
+		{
+			return PI/4;
+		}
+	}
+	else if (B = 0)
+	{
+		if(A > 0)
+		{
+			return PI;
+		}
+		else if (A < 0)
+		{
+			return PI/2;
+		}
+		else 
+		{
+			return 0;
+		}
+	}
+	else 
+	{
+		if(A != 0)
+		{
+			return (PI+atan(B/A))/2;
+		}
+
+		else if(A < 0)
+		{
+			return PI/4 - atan(A/B)/2;
+		}
+
+		else
+		{
+			return 3*PI/4;
+		}
+	}
+}
+
+
 class Matrix {
+private:
+	float tension;
 	public:
 
 	Matrix(float x = 1,float y = 0,float z = 0,float v = 1):oo(x),ot(y),to(z),tt(v)
-	{ }
+	{ tension = 0; }
 
 	float oo;
 	float ot;
 	float to;
 	float tt;
 
+	double SetTension()
+	{
+		double A1 = oo*oo + to*to;
+		double A2 = ot*ot + tt*tt;
+		double A3 = oo*ot + to*tt;
+		double alpha = alpha_max(A1 - A2, 2*A3);
+		tension = sqrt(A1*cos(alpha)*cos(alpha) + A2*sin(alpha)*sin(alpha) + A3*sin(2*alpha));
+		//tension = sqrt(oo*oo+ot*ot+tt*tt+to*to);
+		return tension;
+		
+	}
+
 	double GetTension()
 	{
-		return sqrt(oo*oo+ot*ot+tt*tt+to*to);
+		return tension;
 	}
 
 	Extpair multRow(const Extpair &v)//mult 2x2 matrix on row vector;

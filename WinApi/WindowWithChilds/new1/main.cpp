@@ -57,8 +57,8 @@ int toColor(double x, double max_temp)
 {
 	//return 0x111111 * pow(15,floor(max_temp/x));
 	//return 0x111111 * ((int)floor(log(x)/log(max_temp))%16);
-	//return 0x111111 * ((int)floor(log(x)/log(max_temp))%16);
-	return 0x000001 * ((int)floor((max_temp/x)*0x0FFFFF)%0xFFFFFF);
+	return 0x000001 * ((int)floor((max_temp/x)*0xFFFFFF)%0xFFFFFF);
+	//return (0x111111) * ((int)floor((max_temp/x)*16)%16);
 }
 
 
@@ -253,6 +253,7 @@ void convertDoubleToWchar(double input, wchar_t* output)
 void SetBasicPoint(HWND &hWnd, double a11,double a12,double a21,double a22,double xCoord,double yCoord )
 {
 	wchar_t buff[256];
+	
 	//char cbuff[256];
 	//memset(buff,0,sizeof(wchar_t)*256);
 	//sprintf(a11,buff,256);
@@ -274,6 +275,7 @@ void SetBasicPoint(HWND &hWnd, double a11,double a12,double a21,double a22,doubl
 	SetDlgItemText(hWnd,IDC_X,buff);
 	convertDoubleToWchar(yCoord, buff);
 	SetDlgItemText(hWnd,IDC_Y,buff);
+	
 }
 
 void GetBasicPoint(const HWND &hWnd, BasicPoint &bpoint )
@@ -369,10 +371,12 @@ void AddBasicPoint(const HWND &hWnd, Fractal &fractal )
 
 
 BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
+	wchar_t buff[256];
 	double pos;
-	static double  temp_pos = 100; 
+	static double  temp_pos = 100.0; 
 	int randSize = 7;
 	double temp;
+	double temp_tension;
 	double a11, a12, a21, a22, xCoord, yCoord;
 	BasicPoint bpoint;
 	switch(uMsg) {
@@ -393,9 +397,13 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 		case TB_BOTTOM:
 		case TB_THUMBPOSITION:
 
-			pos= 100 - SendDlgItemMessage(hWnd, IDC_TENSION, TBM_GETPOS, 0,0);
 			GetBasicPoint(hWnd , bpoint);
+			pos= 100.0 - SendDlgItemMessage(hWnd, IDC_TENSION, TBM_GETPOS, 0,0);
 			SetBasicPoint(hWnd, bpoint.transform.oo*pos/temp_pos ,bpoint.transform.ot*pos/temp_pos, bpoint.transform.to*pos/temp_pos, bpoint.transform.tt*pos/temp_pos, bpoint.point.xKoord, bpoint.point.yKoord );
+			GetBasicPoint(hWnd , bpoint);
+			temp_tension = bpoint.transform.SetTension();
+	        convertDoubleToWchar(temp_tension, buff);
+	        SetDlgItemText(hWnd,IDC_TENSIONCOEFF,buff);
 			temp_pos = pos;
 			//SetDlgItemInt(hWnd, IDC_EDIT1, 100 - (int)pos*10,0);
 			break;
@@ -407,14 +415,18 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 		switch(LOWORD(wParam)) {
 		case IDC_CALIBRATE:
 			GetBasicPoint(hWnd, bpoint);
-			temp = sqrt(bpoint.transform.oo*bpoint.transform.oo + bpoint.transform.ot*bpoint.transform.ot + bpoint.transform.to*bpoint.transform.to + bpoint.transform.tt*bpoint.transform.tt );
+			temp = bpoint.transform.SetTension();
+			pos= 100.0 - SendDlgItemMessage(hWnd, IDC_TENSION, TBM_GETPOS, 0,0);
+			temp_pos = pos;
 			SetBasicPoint(hWnd, bpoint.transform.oo/temp, bpoint.transform.ot/temp, bpoint.transform.to/temp, bpoint.transform.tt/temp, bpoint.point.xKoord, bpoint.point.yKoord);
-			//pos = bpoint.transform.oo/temp;
-			//pos = 1;
+			GetBasicPoint(hWnd, bpoint);
+			temp_tension = bpoint.transform.SetTension();
+	        convertDoubleToWchar(temp_tension, buff);
+	        SetDlgItemText(hWnd,IDC_TENSIONCOEFF,buff);
 			break;
 		case IDC_RANDOM:
 			GetBasicPoint(hWnd, bpoint);
-			SetBasicPoint(hWnd, (rand() % randSize) - 2, (rand() % randSize) - 2, (rand() % randSize) - 2, (rand() % randSize) - 2, bpoint.point.xKoord, bpoint.point.yKoord);
+			SetBasicPoint(hWnd, (rand() % randSize) - (randSize/2), (rand() % randSize) - (randSize/2), (rand() % randSize) - (randSize/2), (rand() % randSize) - (randSize/2), bpoint.point.xKoord, bpoint.point.yKoord);
 			break;
 		case IDOK:
 		case IDCANCEL:
@@ -482,7 +494,7 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			break;
 		case IDC_ADD:
 			basicPointsWindows.insert(TempChild = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CHILDDLG), (HWND)hMainDlg, ChildDlgProc));
-			SendDlgItemMessage(TempChild, IDC_TENSION, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,100));
+			SendDlgItemMessage(TempChild, IDC_TENSION, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,90));
 			//SendDlgItemMessage(TempChild, IDC_TENSION, TBM_SETPOS, (WPARAM)1, (LPARAM)5);
 			GetWindowRect( TempChild, lpMainDialogRectChild );
 			xSizeChild = lpMainDialogRectChild->right - lpMainDialogRectChild->left;
@@ -639,7 +651,7 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	{
 	case WM_CREATE:
 		hMainDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_MAINDLG), (HWND)hWnd, MainDlgProc);
-		SetDlgItemText(hMainDlg,IDC_ITERATIONNUMBER,L"1");
+		SetDlgItemText(hMainDlg,IDC_ITERATIONNUMBER,L"0");
 		GetWindowRect( hMainDlg, lpMainDialogRect );
 		SetWindowPos( 
 			hMainDlg, 
