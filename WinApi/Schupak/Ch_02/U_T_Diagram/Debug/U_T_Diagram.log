@@ -1,0 +1,39 @@
+﻿Build started 11/21/2012 6:13:54 PM.
+     1>Project "D:\GitH_My\Overview\WinApi\Schupak\Ch_02\U_T_Diagram\U_T_Diagram.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching ".\Debug\U_T_Diagram.unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /Gm /EHsc /RTC1 /MTd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt U_T_Diagram.cpp
+         U_T_Diagram.cpp
+     1>d:\gith_my\overview\winapi\schupak\ch_02\u_t_diagram\u_t_diagram.cpp(68): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\gith_my\overview\winapi\schupak\ch_02\u_t_diagram\u_t_diagram.cpp(87): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>d:\gith_my\overview\winapi\schupak\ch_02\u_t_diagram\u_t_diagram.cpp(88): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>d:\gith_my\overview\winapi\schupak\ch_02\u_t_diagram\u_t_diagram.cpp(90): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\gith_my\overview\winapi\schupak\ch_02\u_t_diagram\u_t_diagram.cpp(98): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>d:\gith_my\overview\winapi\schupak\ch_02\u_t_diagram\u_t_diagram.cpp(99): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>d:\gith_my\overview\winapi\schupak\ch_02\u_t_diagram\u_t_diagram.cpp(101): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>d:\gith_my\overview\winapi\schupak\ch_02\u_t_diagram\u_t_diagram.cpp(140): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>d:\gith_my\overview\winapi\schupak\ch_02\u_t_diagram\u_t_diagram.cpp(141): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>d:\gith_my\overview\winapi\schupak\ch_02\u_t_diagram\u_t_diagram.cpp(141): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+       ManifestResourceCompile:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo".\Debug\U_T_Diagram.exe.embed.manifest.res" .\Debug\U_T_Diagram_manifest.rc 
+       Link:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\U_T_Diagram.exe" /INCREMENTAL /NOLOGO odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:".\Debug\U_T_Diagram.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\GitH_My\Overview\WinApi\Schupak\Ch_02\U_T_Diagram\Debug\U_T_Diagram.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\U_T_Diagram.lib" /MACHINE:X86 .\Debug\U_T_Diagram.exe.embed.manifest.res
+         .\Debug\KWnd.obj
+         .\Debug\U_T_Diagram.obj
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:".\Debug\U_T_Diagram.exe.embed.manifest" /manifest .\Debug\U_T_Diagram.exe.intermediate.manifest
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo".\Debug\U_T_Diagram.exe.embed.manifest.res" .\Debug\U_T_Diagram_manifest.rc 
+       LinkEmbedManifest:
+         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\U_T_Diagram.exe" /INCREMENTAL /NOLOGO odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:".\Debug\U_T_Diagram.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\GitH_My\Overview\WinApi\Schupak\Ch_02\U_T_Diagram\Debug\U_T_Diagram.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\U_T_Diagram.lib" /MACHINE:X86 .\Debug\U_T_Diagram.exe.embed.manifest.res
+         .\Debug\KWnd.obj
+         .\Debug\U_T_Diagram.obj
+         U_T_Diagram.vcxproj -> D:\GitH_My\Overview\WinApi\Schupak\Ch_02\U_T_Diagram\.\Debug\U_T_Diagram.exe
+       FinalizeBuildStatus:
+         Deleting file ".\Debug\U_T_Diagram.unsuccessfulbuild".
+         Touching ".\Debug\U_T_Diagram.lastbuildstate".
+     1>Done Building Project "D:\GitH_My\Overview\WinApi\Schupak\Ch_02\U_T_Diagram\U_T_Diagram.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.45

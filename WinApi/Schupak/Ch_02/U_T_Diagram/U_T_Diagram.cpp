@@ -97,7 +97,7 @@ void DrawDiagram(HWND hwnd, HDC hdc)
 	int t = tMin;
 	int yMin = uMin * nPixPerVolt;
 	int yMax = uMax * nPixPerVolt;
-	for (i = 0; i < 9; ++i) {
+	for (int i = 0; i < 9; ++i) {
 		x = t * nPixPerMs;
 		MoveToEx(hdc, x, yMin, NULL);
 		LineTo(hdc, x, yMax);
