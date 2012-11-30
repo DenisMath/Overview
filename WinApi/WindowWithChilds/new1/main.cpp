@@ -49,7 +49,7 @@ LPRECT lpMainDialogRectChild = new RECT;
 LPRECT lpDesktopWindow = new RECT;
 #define DELETE_MSG WM_USER + 1
 #define DRAW_MSG WM_USER + 2
-typedef int (*ColorFunc)(double, double, double, int);
+typedef int (*ColorFunc)(double, double, double, double, int);
 typedef double (*AlphaFunc)(double, double, double);
 int size = 0;
 int nCmdSh = 0 ;
@@ -63,18 +63,18 @@ double toAlpha1(double x, double max_temp, double min_temp)
 	//return min_temp*min_temp/(x*x);
 }
 
-int toColor1(double x, double max_temp, double min_temp, int shift)
+int toColor1(double x, double max_temp, double min_temp, double gamma, int shift)
 {
 	return 0x000001 * ((int)floor((x/max_temp)*0xFFFFFF)%0xFFFFFF);
 	//return 0xFF0000;
 }
 
-int toColor2(double x, double max_temp, double min_temp, int shift)
+int toColor2(double x, double max_temp, double min_temp, double gamma, int shift)
 {
 	return 0x010000 * pow(0xFF,x/max_temp);
 }
 
-int toColor3(double x, double max_temp, double min_temp, int shift)
+int toColor3(double x, double max_temp, double min_temp, double gamma, int shift)
 {
 	//return  0x111111 * ((int)floor(log(x)/log(max_temp))%16);
 	double temp = x/max_temp;
@@ -83,14 +83,14 @@ int toColor3(double x, double max_temp, double min_temp, int shift)
 	return 0x010000*(int)((0xFF-shift) *temp*temp+shift);
 }
 
-int toColor4(double x, double max_temp, double min_temp, int shift)
+int toColor4(double x, double max_temp, double min_temp, double gamma, int shift)
 {
 	double temp = x/max_temp;
 	return 0x010000 * (int)(((0xFF-0xF)*temp)+0xF);
 	//return (0x111111) * ((int)floor((x/max_temp)*16)%16);
 }
 
-int toColor5(double x, double max_temp, double min_temp, int shift)
+int toColor5(double x, double max_temp, double min_temp, double gamma, int shift)
 {
 	double temp = x/max_temp;
 	int temp1 = 0xFF-shift;
@@ -98,27 +98,27 @@ int toColor5(double x, double max_temp, double min_temp, int shift)
 	return 0x010000*(int)((0xFF-shift) * pow(temp*temp, 1/2.2) +shift);
 }
 
-int toColor6(double x, double max_temp, double min_temp, int shift)
+int toColor6(double x, double max_temp, double min_temp, double gamma, int shift)
 {
 	double temp = min_temp/x;
 	//return 0x010000 * ((int)pow(0xFF,max_temp/x)%0xFF);
 	return 0x010000 * (int)((0xFF-shift)*pow(temp*temp,2.2)+shift);
 }
 
-int toColor7(double x, double max_temp, double min_temp, int shift)
+int toColor7(double x, double max_temp, double min_temp, double gamma, int shift)
 {
 	double temp = min_temp/x;
 		
 	//return  0x010000 * ((int)floor(log(max_temp)/log(x))%0xFF);
 	//return  0x010000 * (int)floor((2*atan(1/(x*x))/PI)*0xFF);
-	return 0x010000*(int)((0xFF-shift)*pow(temp*temp, 2.2)+shift);
+	return 0x010000*(int)((0xFF-shift)*pow(temp, gamma)+shift);
 }
 
-int toColor8(double x, double max_temp, double min_temp, int shift)
+int toColor8(double x, double max_temp, double min_temp, double gamma, int shift)
 {
 	double temp = x/max_temp;
 	
-	return 0x010000 * (int)(((0xFF-shift)*pow(temp*temp, 2.2))+shift);
+	return 0x010000 * (int)(((0xFF-shift)*pow(temp, gamma))+shift);
 	//return 0x010000 * ((int)(0xFF*x/max_temp));
 	//return (0x111111) * ((int)floor((max_temp/x)*16)%16);
 }
@@ -148,7 +148,10 @@ void SetBufferPointsW()
 	int temp = GraphicsPoints.size();
 	double temp_max = *max_element(Tensions.begin(),Tensions.end());
 	double temp_min = *min_element(Tensions.begin(),Tensions.end());
-	int shift = 2*SendDlgItemMessage(hMainDlg, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
+	int shift = SendDlgItemMessage(hMainDlg, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
+	GetDlgItemText(hMainDlg, IDC_GAMMACOEF, buff, 256);
+	double gamma = _wtof(buff);
+	
 	delete[] Vertices;
 	Vertices = new CUSTOMVERTEX[temp];
 	for(int i=0; i<temp; i++)
@@ -157,8 +160,8 @@ void SetBufferPointsW()
 		Vertices[i].y = GraphicsPoints[i].second ;
 		Vertices[i].z = 0.5f;
 
-		Vertices[i].rhw =  toAlpha(Tensions[i], temp_max, temp_min);
-		Vertices[i].color = toColor(Tensions[i], temp_max, temp_min, shift);
+		Vertices[i].rhw =  1.0f;
+		Vertices[i].color = toColor(Tensions[i], temp_max, temp_min, gamma, shift);
 	}
 };
 
@@ -525,6 +528,7 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	int xSizeCounter = 0;
 	int ySizeCounter = 0;
 	int temp_shift = 0;
+	double temp_gamma = 1;
 	int pos = 0;
 	static int counter = 0;
 	std::set<HWND>::iterator at;
@@ -548,11 +552,12 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 		case WM_CREATE:
 		SetDlgItemText(hWnd,IDC_ITERATIONNUMBER,L"1");
 		SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,100));
+		SendDlgItemMessage(hWnd, IDC_GAMMA, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,100));
         SendMessage(GetDlgItem(hWnd, IDC_COLORINTENSE), TBM_SETPOS, TRUE, 0);
+		SendMessage(GetDlgItem(hWnd, IDC_GAMMA), TBM_SETPOS, TRUE, 50);
 		//CreateWindow(L"BUTTON",L"Draw",WS_CHILD|BS_DEFPUSHBUTTON,0,0,90,20,hWnd,(HMENU)IDC_DRAW,GetModuleHandle(NULL),NULL);
 		break;
-		case WM_VSCROLL:
-
+		case WM_HSCROLL:
 		switch(LOWORD(wParam))
 		{
 
@@ -560,14 +565,18 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 		/*case TB_LINEUP:
 		case TB_LINEDOWN:
 		case TB_PAGEUP:
-		case TB_PAGEDOWN:
+		case TB_PAGEDOWN:*/
 		case TB_TOP:
-		case TB_BOTTOM:*/
+		case TB_BOTTOM:
 		case TB_THUMBPOSITION:
-
+			
 			temp_shift = SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
 	        convertDoubleToWchar(temp_shift, buff);
 	        SetDlgItemText(hWnd,IDC_SHIFTCOEFF,buff);
+
+			temp_gamma = pow((float)1.3, (float)( SendDlgItemMessage(hWnd, IDC_GAMMA, TBM_GETPOS, 0,0) - 50) / 10 );
+	        convertDoubleToWchar(temp_gamma, buff);
+	        SetDlgItemText(hWnd,IDC_GAMMACOEF,buff);
 			//SetDlgItemInt(hWnd, IDC_EDIT1, 100 - (int)pos*10,0);
 			break;
 		}
@@ -612,8 +621,21 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 				BST_CHECKED
 				);
 				break;
+
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
+		case IDOK:
+			SendMessage(GetDlgItem(hWnd, IDC_GAMMA), TBM_SETPOS, TRUE, 50);
+			temp_shift = SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
+	        convertDoubleToWchar(temp_shift, buff);
+	        SetDlgItemText(hWnd,IDC_SHIFTCOEFF,buff);
+
+			SendMessage(GetDlgItem(hWnd, IDC_COLORINTENSE), TBM_SETPOS, TRUE, 0);
+			temp_gamma = pow((float)1.3, (float)( SendDlgItemMessage(hWnd, IDC_GAMMA, TBM_GETPOS, 0,0) - 50) / 10 );
+	        convertDoubleToWchar(temp_gamma, buff);
+	        SetDlgItemText(hWnd,IDC_GAMMACOEF,buff);
+			break;
+
 		case IDC_PRINTEPS:
 			CheckDlgButton(
 				hMainDlg,
