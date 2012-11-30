@@ -1,4 +1,4 @@
-﻿Build started 11/28/2012 7:55:50 PM.
+﻿Build started 11/30/2012 7:21:44 PM.
      1>Project "D:\GitH_My\Overview\WinApi\WindowWithChilds\new1\new1.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\new1.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -33,43 +33,44 @@
      1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(334): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
      1>d:\gith_my\overview\winapi\windowwithchilds\new1\fractal.h(334): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
      1>main.cpp(18): warning C4117: macro name '__cplusplus' is reserved, '#define' ignored
-     1>main.cpp(67): warning C4244: 'return' : conversion from 'double' to 'int', possible loss of data
-     1>main.cpp(111): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>main.cpp(112): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>main.cpp(127): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>main.cpp(128): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>main.cpp(279): warning C4996: '_gcvt': This function or variable may be unsafe. Consider using _gcvt_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>main.cpp(74): warning C4244: 'return' : conversion from 'double' to 'int', possible loss of data
+     1>main.cpp(138): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
+     1>main.cpp(139): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
+     1>main.cpp(156): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
+     1>main.cpp(157): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
+     1>main.cpp(160): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
+     1>main.cpp(309): warning C4996: '_gcvt': This function or variable may be unsafe. Consider using _gcvt_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdlib.h(729) : see declaration of '_gcvt'
-     1>main.cpp(355): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(356): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(358): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(359): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(360): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(361): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(401): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(402): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(403): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(403): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(403): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(403): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(403): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(403): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(418): warning C4101: 'xCoord' : unreferenced local variable
-     1>main.cpp(418): warning C4101: 'a12' : unreferenced local variable
-     1>main.cpp(418): warning C4101: 'a21' : unreferenced local variable
-     1>main.cpp(418): warning C4101: 'yCoord' : unreferenced local variable
-     1>main.cpp(418): warning C4101: 'a11' : unreferenced local variable
-     1>main.cpp(418): warning C4101: 'a22' : unreferenced local variable
-     1>main.cpp(597): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>main.cpp(385): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(386): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(388): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(389): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(390): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(391): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(431): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(432): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(433): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(433): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(433): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(433): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(433): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(433): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(448): warning C4101: 'xCoord' : unreferenced local variable
+     1>main.cpp(448): warning C4101: 'a12' : unreferenced local variable
+     1>main.cpp(448): warning C4101: 'a21' : unreferenced local variable
+     1>main.cpp(448): warning C4101: 'yCoord' : unreferenced local variable
+     1>main.cpp(448): warning C4101: 'a11' : unreferenced local variable
+     1>main.cpp(448): warning C4101: 'a22' : unreferenced local variable
+     1>main.cpp(655): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdlib.h(645) : see declaration of '_itow'
-     1>main.cpp(700): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>main.cpp(758): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdlib.h(645) : see declaration of '_itow'
-     1>main.cpp(499): warning C4101: 'xCoord' : unreferenced local variable
-     1>main.cpp(498): warning C4101: 'a12' : unreferenced local variable
-     1>main.cpp(498): warning C4101: 'a21' : unreferenced local variable
-     1>main.cpp(499): warning C4101: 'yCoord' : unreferenced local variable
-     1>main.cpp(498): warning C4101: 'a11' : unreferenced local variable
-     1>main.cpp(498): warning C4101: 'a22' : unreferenced local variable
+     1>main.cpp(532): warning C4101: 'xCoord' : unreferenced local variable
+     1>main.cpp(531): warning C4101: 'a12' : unreferenced local variable
+     1>main.cpp(531): warning C4101: 'a21' : unreferenced local variable
+     1>main.cpp(532): warning C4101: 'yCoord' : unreferenced local variable
+     1>main.cpp(531): warning C4101: 'a11' : unreferenced local variable
+     1>main.cpp(531): warning C4101: 'a22' : unreferenced local variable
        ResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -88,4 +89,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.95
+Time Elapsed 00:00:01.92
