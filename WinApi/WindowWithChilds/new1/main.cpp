@@ -49,57 +49,79 @@ LPRECT lpMainDialogRectChild = new RECT;
 LPRECT lpDesktopWindow = new RECT;
 #define DELETE_MSG WM_USER + 1
 #define DRAW_MSG WM_USER + 2
-typedef int (*ColorFunc)(double, double);
+typedef int (*ColorFunc)(double, double, double);
+typedef double (*AlphaFunc)(double, double, double);
 int size = 0;
 int nCmdSh = 0 ;
 wchar_t buff[256];
 std::set<HWND> basicPointsWindows;
 Fractal f;
 
-
-int toColor1(double x, double max_temp)
+double toAlpha1(double x, double max_temp, double min_temp)
 {
-	return 0x000001 * ((int)floor((x/max_temp)*0xFFFFFF)%0xFFFFFF);	
+	return 1.0f;
+	//return min_temp*min_temp/(x*x);
 }
 
-int toColor2(double x, double max_temp)
+int toColor1(double x, double max_temp, double min_temp)
 {
-	return 0x111111 * pow(15,x/max_temp);
+	return 0x000001 * ((int)floor((x/max_temp)*0xFFFFFF)%0xFFFFFF);
+	//return 0xFF0000;
 }
 
-int toColor3(double x, double max_temp)
+int toColor2(double x, double max_temp, double min_temp)
+{
+	return 0x010000 * pow(0xFF,x/max_temp);
+}
+
+int toColor3(double x, double max_temp, double min_temp)
 {
 	return  0x111111 * ((int)floor(log(x)/log(max_temp))%16);
 }
 
-int toColor4(double x, double max_temp)
+int toColor4(double x, double max_temp, double min_temp)
 {
-	return (0x111111) * ((int)floor((x/max_temp)*16)%16);
+
+	return 0x010000 * (int)(((0xFF-0xF)*x/max_temp)+0xF);
+	//return (0x111111) * ((int)floor((x/max_temp)*16)%16);
 }
 
-int toColor5(double x, double max_temp)
+int toColor5(double x, double max_temp, double min_temp)
 {
-	return 0x000001 * ((int)floor((max_temp/x)*0xFFFFFF)%0xFFFFFF);	
+	double temp = x/max_temp;
+	int shift = 0x0F;
+	//return 0x000001 * ((int)floor((max_temp/x)*0xFFFFFF)%0xFFFFFF);	
+	return 0x010101*(int)(pow(temp*temp, 2.2) * (0xFF-shift)+shift);
 }
 
-int toColor6(double x, double max_temp)
+int toColor6(double x, double max_temp, double min_temp)
 {
-	return 0x111111 * ((int)pow(15,max_temp/x)%16);
+	double temp = min_temp/x;
+	//return 0x010000 * ((int)pow(0xFF,max_temp/x)%0xFF);
+	return 0x010000 * (int)(0xFF*pow(temp*temp,2.2));
 }
 
-int toColor7(double x, double max_temp)
+int toColor7(double x, double max_temp, double min_temp)
 {
-	return  0x111111 * ((int)floor(log(max_temp)/log(x))%16);
+	double temp = min_temp/x;
+		int shift = 0x00;
+	//return  0x010000 * ((int)floor(log(max_temp)/log(x))%0xFF);
+	//return  0x010000 * (int)floor((2*atan(1/(x*x))/PI)*0xFF);
+	return 0x010000*(int)((0xFF-shift)*pow(temp*temp, 2.2)+shift);
 }
 
-int toColor8(double x, double max_temp)
+int toColor8(double x, double max_temp, double min_temp)
 {
-	return (0x111111) * ((int)floor((max_temp/x)*16)%16);
+	double temp = x/max_temp;
+	return 0x010000 * (int)(((0xFF-0x20)*pow(temp*temp, 2.2))+0x20);
+	//return 0x010000 * ((int)(0xFF*x/max_temp));
+	//return (0x111111) * ((int)floor((max_temp/x)*16)%16);
 }
 
 
 
 ColorFunc toColor=toColor1;
+AlphaFunc toAlpha=toAlpha1;
 
 void SetBufferPoints()
 {
@@ -111,8 +133,8 @@ void SetBufferPoints()
 		Vertices[i].x = GraphicsPoints[i].first ;
 		Vertices[i].y = GraphicsPoints[i].second ;
 		Vertices[i].z = 0.5f;
-		Vertices[i].rhw = 1.0f ;
-		Vertices[i].color = 0xFFD700 ;
+		Vertices[i].rhw = 1.0 ;
+		Vertices[i].color = 0xFFFFFF ;
 	}
 };
 
@@ -120,6 +142,7 @@ void SetBufferPointsW()
 {
 	int temp = GraphicsPoints.size();
 	double temp_max = *max_element(Tensions.begin(),Tensions.end());
+	double temp_min = *min_element(Tensions.begin(),Tensions.end());
 	delete[] Vertices;
 	Vertices = new CUSTOMVERTEX[temp];
 	for(int i=0; i<temp; i++)
@@ -127,8 +150,9 @@ void SetBufferPointsW()
 		Vertices[i].x = GraphicsPoints[i].first ;
 		Vertices[i].y = GraphicsPoints[i].second ;
 		Vertices[i].z = 0.5f;
-		Vertices[i].rhw = 1.0f ;
-		Vertices[i].color = toColor(Tensions[i], temp_max) ;
+
+		//Vertices[i].rhw =  toAlpha(Tensions[i], temp_max, temp_min);
+		Vertices[i].color = toColor(Tensions[i], temp_max, temp_min) ;
 	}
 };
 
@@ -247,7 +271,7 @@ VOID Cleanup()
 VOID Render()
 {
 	// Clear the backbuffer to a blue color
-	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB( 25, 25, 112 ), 1.0f, 0 );
+	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB( 0, 0, 0 ), 1.0f, 0 );
 
 	// Begin the scene
 	if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
