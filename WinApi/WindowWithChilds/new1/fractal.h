@@ -33,23 +33,25 @@ public:
 	void buildW(int n)
 	{
 		int pntsize=basicpoints.size();
-		int frsize=fracsetW.size();
+		int frsize=0;
 		ExtpairWT temp;
-
 		fracsetW.clear();
+		//fracset.resize(pow((float)pntsize,n));
 		for(int i=0;i < pntsize; i++)
 		{
-			basicpoints[i].transform.SetTension();
 			temp.extpair = basicpoints[i].point;
-			basicpoints[i].transform.SetTension();
-			temp.tension = basicpoints[i].transform.GetTension();
+			temp.tension = basicpoints[i].transform.SetTension();
 			fracsetW.push_back(temp);
 		}
 
-		for(int k=0;k < n; k++)
+		for( int k=0; k < n; k++)
 		{
-			fracsetW.sort();
-			fracsetW.unique();
+			//fracsetW.sort();
+	        //fracsetW.unique();
+			fracsetW.sort(moreExtWT);
+	        fracsetW.unique(equalExtpair);
+			
+
 			frsize=fracsetW.size();
 			for(int j=0;j < frsize; j++)
 			{
@@ -59,9 +61,9 @@ public:
 				}
 				fracsetW.pop_front(); 
 			}
-			/*fracset.sort();
-			fracset.unique();*/
 		}
+		//floorListExtWTWeak(fracsetW);
+		floorListExtWTStrong(fracsetW);
 	}
 
 	void build(int n)
@@ -71,7 +73,7 @@ public:
 		fracset.clear();
 		for(int i=0;i < pntsize; i++)
 		{
-			fracset.push_back(basicpoints[i].point);
+			fracset.push_back( basicpoints[i].point);
 		}
 
 		for(int k=0;k < n; k++)
@@ -326,7 +328,7 @@ public:
 	}
 };
 
-void buildFractalPolygone( Fractal &f, int numberOfVertex = 3, double tensionCoeff = 0.5, int numberOfIteration = 7 )
+void buildFractalPolygone( Fractal &f, int numberOfVertex = 3, float tensionCoeff = 0.5, int numberOfIteration = 7 )
 {
 	int n = numberOfVertex;
 	Extpair p(0,100),shp(280,330);
@@ -344,11 +346,11 @@ void buildFractalPolygone( Fractal &f, int numberOfVertex = 3, double tensionCoe
 	f.build(numberOfIteration);	
 }
 
-void convertFractalToPairVector(Fractal &f, std::vector<std::pair<double,double>> &VectorPair )
+void convertFractalToPairVector(Fractal &f, std::vector<std::pair<float,float>> &VectorPair )
 {
 	VectorPair.clear();
 	int temp1 = f.fracset.size();
-	std::pair<double,double> temp;
+	std::pair<float,float> temp;
 	FractalType::iterator at = f.fracset.begin();
 	for(int i = 0; i < temp1; i++)
 	{ 
@@ -359,12 +361,12 @@ void convertFractalToPairVector(Fractal &f, std::vector<std::pair<double,double>
 	}	
 }
 
-void wConvertFractalToPairVector(Fractal &f, std::vector<std::pair<double,double>> &VectorPair, std::vector<double> &Tension )
+void wConvertFractalToPairVector(Fractal &f, std::vector<std::pair<float,float>> &VectorPair, std::vector<float> &Tension )
 {
 	VectorPair.clear();
 	Tension.clear();
 	int temp1 = f.fracsetW.size();
-	std::pair<double,double> temp;
+	std::pair<float,float> temp;
 	FractalTypeW::iterator at = f.fracsetW.begin();
 	for(int i = 0; i < temp1; i++)
 	{ 
@@ -375,5 +377,7 @@ void wConvertFractalToPairVector(Fractal &f, std::vector<std::pair<double,double
 		at++;
 	}	
 }
+
+
 
 #endif

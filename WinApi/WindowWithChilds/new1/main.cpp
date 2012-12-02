@@ -38,8 +38,8 @@ struct CUSTOMVERTEX
 // Our custom FVF, which describes our custom vertex structure
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE)
 
-std::vector<std::pair<double, double>> GraphicsPoints ;
-std::vector<double> Tensions;
+std::vector<std::pair<float, float>> GraphicsPoints ;
+std::vector<float> Tensions;
 CUSTOMVERTEX* Vertices = new CUSTOMVERTEX[2];
 
 HWND hMainDlg, TempChild, hWndDirectX;
@@ -49,73 +49,64 @@ LPRECT lpMainDialogRectChild = new RECT;
 LPRECT lpDesktopWindow = new RECT;
 #define DELETE_MSG WM_USER + 1
 #define DRAW_MSG WM_USER + 2
-typedef int (*ColorFunc)(double, double, double);
-typedef double (*AlphaFunc)(double, double, double);
+typedef int (*ColorFunc)(float, float, float, float, int);
+typedef float (*AlphaFunc)(float, float, float);
 int size = 0;
 int nCmdSh = 0 ;
 wchar_t buff[256];
 std::set<HWND> basicPointsWindows;
 Fractal f;
 
-double toAlpha1(double x, double max_temp, double min_temp)
+float toAlpha1(float x, float max_temp, float min_temp)
 {
 	return 1.0f;
 	//return min_temp*min_temp/(x*x);
 }
 
-int toColor1(double x, double max_temp, double min_temp)
+int toColor1(float x, float max_temp, float min_temp, float gamma, int shift)
 {
 	return 0x000001 * ((int)floor((x/max_temp)*0xFFFFFF)%0xFFFFFF);
-	//return 0xFF0000;
 }
 
-int toColor2(double x, double max_temp, double min_temp)
+int toColor2(float x, float max_temp, float min_temp, float gamma, int shift)
 {
-	return 0x010000 * pow(0xFF,x/max_temp);
+	return  0x010000 * ((0xFF-shift)*((int)floor(log(max_temp)/log(x))%0xFF)+shift);
 }
 
-int toColor3(double x, double max_temp, double min_temp)
+int toColor3(float x, float max_temp, float min_temp, float gamma, int shift)
 {
-	return  0x111111 * ((int)floor(log(x)/log(max_temp))%16);
+	float temp = min_temp/x;
+	return 0x010101*(int)((0xFF-shift)*pow(temp, gamma)+shift);
 }
 
-int toColor4(double x, double max_temp, double min_temp)
+int toColor4(float x, float max_temp, float min_temp, float gamma, int shift)
 {
-
-	return 0x010000 * (int)(((0xFF-0xF)*x/max_temp)+0xF);
-	//return (0x111111) * ((int)floor((x/max_temp)*16)%16);
+	float temp = x/max_temp;
+	return 0x010101*(int)((0xFF-shift)*pow(temp, gamma)+shift);
 }
 
-int toColor5(double x, double max_temp, double min_temp)
+int toColor5(float x, float max_temp, float min_temp, float gamma, int shift)
 {
-	double temp = x/max_temp;
-	int shift = 0x0F;
-	//return 0x000001 * ((int)floor((max_temp/x)*0xFFFFFF)%0xFFFFFF);	
-	return 0x010101*(int)(pow(temp*temp, 2.2) * (0xFF-shift)+shift);
+	float temp = min_temp/x;
+	return 0x010101*(int)((0xFF-shift)*pow(temp, gamma)+shift);
 }
 
-int toColor6(double x, double max_temp, double min_temp)
+int toColor6(float x, float max_temp, float min_temp, float gamma, int shift)
 {
-	double temp = min_temp/x;
-	//return 0x010000 * ((int)pow(0xFF,max_temp/x)%0xFF);
-	return 0x010000 * (int)(0xFF*pow(temp*temp,2.2));
+	float temp = min_temp/x;
+	return  0x010000 * (int)((0xFF-shift)*floor((2*atan(1/(x*x))/PI)*0xFF)+shift);
 }
 
-int toColor7(double x, double max_temp, double min_temp)
+int toColor7(float x, float max_temp, float min_temp, float gamma, int shift)
 {
-	double temp = min_temp/x;
-		int shift = 0x00;
-	//return  0x010000 * ((int)floor(log(max_temp)/log(x))%0xFF);
-	//return  0x010000 * (int)floor((2*atan(1/(x*x))/PI)*0xFF);
-	return 0x010000*(int)((0xFF-shift)*pow(temp*temp, 2.2)+shift);
+	float temp = min_temp/x;
+	return 0x010000*(int)((0xFF-shift)*pow(temp, gamma)+shift);
 }
 
-int toColor8(double x, double max_temp, double min_temp)
+int toColor8(float x, float max_temp, float min_temp, float gamma, int shift)
 {
-	double temp = x/max_temp;
-	return 0x010000 * (int)(((0xFF-0x20)*pow(temp*temp, 2.2))+0x20);
-	//return 0x010000 * ((int)(0xFF*x/max_temp));
-	//return (0x111111) * ((int)floor((max_temp/x)*16)%16);
+	float temp = x/max_temp;
+	return 0x010000 * (int)(((0xFF-shift)*pow(temp, gamma))+shift);
 }
 
 
@@ -141,8 +132,12 @@ void SetBufferPoints()
 void SetBufferPointsW()
 {
 	int temp = GraphicsPoints.size();
-	double temp_max = *max_element(Tensions.begin(),Tensions.end());
-	double temp_min = *min_element(Tensions.begin(),Tensions.end());
+	float temp_max = *max_element(Tensions.begin(),Tensions.end());
+	float temp_min = *min_element(Tensions.begin(),Tensions.end());
+	int shift = SendDlgItemMessage(hMainDlg, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
+	GetDlgItemText(hMainDlg, IDC_GAMMACOEF, buff, 256);
+	float gamma = _wtof(buff);
+	
 	delete[] Vertices;
 	Vertices = new CUSTOMVERTEX[temp];
 	for(int i=0; i<temp; i++)
@@ -151,8 +146,8 @@ void SetBufferPointsW()
 		Vertices[i].y = GraphicsPoints[i].second ;
 		Vertices[i].z = 0.5f;
 
-		//Vertices[i].rhw =  toAlpha(Tensions[i], temp_max, temp_min);
-		Vertices[i].color = toColor(Tensions[i], temp_max, temp_min) ;
+		Vertices[i].rhw =  1.0f;
+		Vertices[i].color = toColor(Tensions[i], temp_max, temp_min, gamma, shift);
 	}
 };
 
@@ -296,7 +291,7 @@ VOID Render()
 	g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
 }
 
-void convertDoubleToWchar(double input, wchar_t* output)
+void convertfloatToWchar(float input, wchar_t* output)
 {
 	//memset(buff,0,sizeof(wchar_t)*256);
 	char cbuff[256];
@@ -312,7 +307,7 @@ void convertDoubleToWchar(double input, wchar_t* output)
 	//memset(buff,0,sizeof(wchar_t)*256);
 }
 
-void SetBasicPoint(HWND &hWnd, double a11,double a12,double a21,double a22,double xCoord,double yCoord )
+void SetBasicPoint(HWND &hWnd, float a11,float a12,float a21,float a22,float xCoord,float yCoord )
 {
 	wchar_t buff[256];
 	
@@ -324,18 +319,18 @@ void SetBasicPoint(HWND &hWnd, double a11,double a12,double a21,double a22,doubl
 
 	//FormatFloat
 	//memset(buff,0,sizeof(wchar_t)*256);
-	convertDoubleToWchar(a11, buff);
+	convertfloatToWchar(a11, buff);
 	SetDlgItemText(hWnd,IDC_A11, buff);
 	//memset(buff,0,sizeof(wchar_t)*256);
-	convertDoubleToWchar(a12, buff);
+	convertfloatToWchar(a12, buff);
 	SetDlgItemText(hWnd,IDC_A12,buff);
-	convertDoubleToWchar(a21, buff);
+	convertfloatToWchar(a21, buff);
 	SetDlgItemText(hWnd,IDC_A21,buff);
-	convertDoubleToWchar(a22, buff);
+	convertfloatToWchar(a22, buff);
 	SetDlgItemText(hWnd,IDC_A22,buff);
-	convertDoubleToWchar(xCoord, buff);
+	convertfloatToWchar(xCoord, buff);
 	SetDlgItemText(hWnd,IDC_X,buff);
-	convertDoubleToWchar(yCoord, buff);
+	convertfloatToWchar(yCoord, buff);
 	SetDlgItemText(hWnd,IDC_Y,buff);
 	
 }
@@ -343,7 +338,7 @@ void SetBasicPoint(HWND &hWnd, double a11,double a12,double a21,double a22,doubl
 void GetBasicPoint(const HWND &hWnd, BasicPoint &bpoint )
 {
 	wchar_t buff[256];
-	double a11, a12, a21, a22, xCoord, yCoord;
+	float a11, a12, a21, a22, xCoord, yCoord;
 	Extpair extpair;
 	GetDlgItemText(hWnd,
 		IDC_A11,
@@ -389,7 +384,7 @@ void GetBasicPoint(const HWND &hWnd, BasicPoint &bpoint )
 void AddBasicPoint(const HWND &hWnd, Fractal &fractal )
 {
 	wchar_t buff[256];
-	double a11, a12, a21, a22, xCoord, yCoord;
+	float a11, a12, a21, a22, xCoord, yCoord;
 	Extpair extpair;
 	GetDlgItemText(hWnd,
 		IDC_A11,
@@ -434,12 +429,12 @@ void AddBasicPoint(const HWND &hWnd, Fractal &fractal )
 
 BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	wchar_t buff[256];
-	double pos;
-	static double  temp_pos = 100.0; 
+	float pos;
+	static float  temp_pos = 100.0; 
 	int randSize = 7;
-	double temp;
-	double temp_tension;
-	double a11, a12, a21, a22, xCoord, yCoord;
+	float temp;
+	float temp_ten;
+	float a11, a12, a21, a22, xCoord, yCoord;
 	BasicPoint bpoint;
 	switch(uMsg) {
 	case WM_ACTIVATE:
@@ -451,20 +446,20 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 		{
 
 			//При любом изменении положения движка, меняем громкость
-		case TB_LINEUP:
+		/*case TB_LINEUP:
 		case TB_LINEDOWN:
 		case TB_PAGEUP:
 		case TB_PAGEDOWN:
 		case TB_TOP:
-		case TB_BOTTOM:
+		case TB_BOTTOM:*/
 		case TB_THUMBPOSITION:
 
 			GetBasicPoint(hWnd , bpoint);
 			pos= 100.0 - SendDlgItemMessage(hWnd, IDC_TENSION, TBM_GETPOS, 0,0);
 			SetBasicPoint(hWnd, bpoint.transform.oo*pos/temp_pos ,bpoint.transform.ot*pos/temp_pos, bpoint.transform.to*pos/temp_pos, bpoint.transform.tt*pos/temp_pos, bpoint.point.xKoord, bpoint.point.yKoord );
 			GetBasicPoint(hWnd , bpoint);
-			temp_tension = bpoint.transform.SetTension();
-	        convertDoubleToWchar(temp_tension, buff);
+			temp_ten = bpoint.transform.SetTension();
+	        convertfloatToWchar(temp_ten, buff);
 	        SetDlgItemText(hWnd,IDC_TENSIONCOEFF,buff);
 			temp_pos = pos;
 			//SetDlgItemInt(hWnd, IDC_EDIT1, 100 - (int)pos*10,0);
@@ -475,15 +470,58 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 		break;
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
+	case IDC_MATRIXTYPE1:
+		GetBasicPoint(hWnd, bpoint);
+		SetBasicPoint(hWnd, 1, 1, 1, 1, bpoint.point.xKoord, bpoint.point.yKoord);
+		SendMessage(hWnd, WM_COMMAND, (WPARAM)IDC_CALIBRATE, 0);
+		break;
+
+	case IDC_MATRIXTYPE2:
+		GetBasicPoint(hWnd, bpoint);
+		SetBasicPoint(hWnd, 1, 1, 0, 1, bpoint.point.xKoord, bpoint.point.yKoord);
+		SendMessage(hWnd, WM_COMMAND, (WPARAM)IDC_CALIBRATE, 0);
+		break;
+
+	case IDC_MATRIXTYPE3:
+		GetBasicPoint(hWnd, bpoint);
+		SetBasicPoint(hWnd, 1, 1, 1, 0, bpoint.point.xKoord, bpoint.point.yKoord);
+		SendMessage(hWnd, WM_COMMAND, (WPARAM)IDC_CALIBRATE, 0);
+		break;
+
+	case IDC_MATRIXTYPE4:
+		GetBasicPoint(hWnd, bpoint);
+		SetBasicPoint(hWnd, 0, 1, 1, 1, bpoint.point.xKoord, bpoint.point.yKoord);
+		SendMessage(hWnd, WM_COMMAND, (WPARAM)IDC_CALIBRATE, 0);
+		break;
+
+	case IDC_MATRIXTYPE5:
+		GetBasicPoint(hWnd, bpoint);
+		SetBasicPoint(hWnd, 1, 1, 1, 0, bpoint.point.xKoord, bpoint.point.yKoord);
+		SendMessage(hWnd, WM_COMMAND, (WPARAM)IDC_CALIBRATE, 0);
+		break;
+
+	case IDC_MATRIXTYPE6:
+		GetBasicPoint(hWnd, bpoint);
+		SetBasicPoint(hWnd, 1, 0, 0, 1, bpoint.point.xKoord, bpoint.point.yKoord);
+		SendMessage(hWnd, WM_COMMAND, (WPARAM)IDC_CALIBRATE, 0);
+		break;
+
+	case IDC_MATRIXTYPE7:
+		GetBasicPoint(hWnd, bpoint);
+		SetBasicPoint(hWnd, 0, 1, 1, 0, bpoint.point.xKoord, bpoint.point.yKoord);
+		SendMessage(hWnd, WM_COMMAND, (WPARAM)IDC_CALIBRATE, 0);
+		break;
+
 		case IDC_CALIBRATE:
+			SendMessage(GetDlgItem(hWnd, IDC_TENSION), TBM_SETPOS, TRUE, 30);
 			GetBasicPoint(hWnd, bpoint);
 			temp = bpoint.transform.SetTension();
 			pos= 100.0 - SendDlgItemMessage(hWnd, IDC_TENSION, TBM_GETPOS, 0,0);
 			temp_pos = pos;
-			SetBasicPoint(hWnd, bpoint.transform.oo/temp, bpoint.transform.ot/temp, bpoint.transform.to/temp, bpoint.transform.tt/temp, bpoint.point.xKoord, bpoint.point.yKoord);
+			SetBasicPoint(hWnd, 0.7*bpoint.transform.oo/temp, 0.7*bpoint.transform.ot/temp, 0.7*bpoint.transform.to/temp, 0.7*bpoint.transform.tt/temp, bpoint.point.xKoord, bpoint.point.yKoord);
 			GetBasicPoint(hWnd, bpoint);
-			temp_tension = bpoint.transform.SetTension();
-	        convertDoubleToWchar(temp_tension, buff);
+			temp_ten = bpoint.transform.SetTension();
+	        convertfloatToWchar(temp_ten, buff);
 	        SetDlgItemText(hWnd,IDC_TENSIONCOEFF,buff);
 			break;
 		case IDC_RANDOM:
@@ -517,10 +555,13 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	int ySizeChild = 100;
 	int xSizeCounter = 0;
 	int ySizeCounter = 0;
+	int temp_shift = 0;
+	float temp_gamma = 1;
+	int pos = 0;
 	static int counter = 0;
 	std::set<HWND>::iterator at;
-	double a11, a12, a21, a22;
-	double xCoord, yCoord;
+	float a11, a12, a21, a22;
+	float xCoord, yCoord;
 	BasicPoint bpoint;
 	Extpair extpair;
 	Matrix matrix;
@@ -538,7 +579,37 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	switch(uMsg) {
 		case WM_CREATE:
 		SetDlgItemText(hWnd,IDC_ITERATIONNUMBER,L"1");
+		SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,100));
+		SendDlgItemMessage(hWnd, IDC_GAMMA, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,100));
+        SendMessage(GetDlgItem(hWnd, IDC_COLORINTENSE), TBM_SETPOS, TRUE, 0);
+		SendMessage(GetDlgItem(hWnd, IDC_GAMMA), TBM_SETPOS, TRUE, 50);
 		//CreateWindow(L"BUTTON",L"Draw",WS_CHILD|BS_DEFPUSHBUTTON,0,0,90,20,hWnd,(HMENU)IDC_DRAW,GetModuleHandle(NULL),NULL);
+		break;
+		case WM_HSCROLL:
+		switch(LOWORD(wParam))
+		{
+
+			//При любом изменении положения движка, меняем громкость
+		/*case TB_LINEUP:
+		case TB_LINEDOWN:
+		case TB_PAGEUP:
+		case TB_PAGEDOWN:*/
+		case TB_TOP:
+		case TB_BOTTOM:
+		case TB_THUMBPOSITION:
+			
+			temp_shift = SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
+	        convertfloatToWchar(temp_shift, buff);
+	        SetDlgItemText(hWnd,IDC_SHIFTCOEFF,buff);
+
+			temp_gamma = pow((float)1.3, (float)( SendDlgItemMessage(hWnd, IDC_GAMMA, TBM_GETPOS, 0,0) - 50) / 10 );
+	        convertfloatToWchar(temp_gamma, buff);
+	        SetDlgItemText(hWnd,IDC_GAMMACOEF,buff);
+			//SetDlgItemInt(hWnd, IDC_EDIT1, 100 - (int)pos*10,0);
+			break;
+		}
+
+
 		break;
 		case DRAW_MSG:
 				CheckDlgButton(
@@ -578,8 +649,21 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 				BST_CHECKED
 				);
 				break;
+
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
+		case IDOK:
+			SendMessage(GetDlgItem(hWnd, IDC_GAMMA), TBM_SETPOS, TRUE, 50);
+			temp_shift = SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
+	        convertfloatToWchar(temp_shift, buff);
+	        SetDlgItemText(hWnd,IDC_SHIFTCOEFF,buff);
+
+			SendMessage(GetDlgItem(hWnd, IDC_COLORINTENSE), TBM_SETPOS, TRUE, 0);
+			temp_gamma = pow((float)1.3, (float)( SendDlgItemMessage(hWnd, IDC_GAMMA, TBM_GETPOS, 0,0) - 50) / 10 );
+	        convertfloatToWchar(temp_gamma, buff);
+	        SetDlgItemText(hWnd,IDC_GAMMACOEF,buff);
+			break;
+
 		case IDC_PRINTEPS:
 			CheckDlgButton(
 				hMainDlg,
@@ -814,7 +898,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	if(!hMainDlg) return false;
 	//ShowWindow(hMainDlg,nCmdShow);
 
-	//	std::pair<double, double> temp;
+	//	std::pair<float, float> temp;
 	//	for(int i = 0; i < 100; i++)
 	//{ 
 	//	temp.first = i;

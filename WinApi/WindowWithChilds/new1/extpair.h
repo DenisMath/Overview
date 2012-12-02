@@ -1,6 +1,6 @@
 #ifndef EXTPAIR
 #define EXTPAIR
-
+//typedef float FLORDB  
 //#include <iostream>
 
 //using namespace std;
@@ -10,9 +10,8 @@ class Extpair {
 	Extpair(float x=0,float y=0):xKoord(x),yKoord(y)
 	{ }
 
-	Extpair(const Extpair& x)
-	{ xKoord = x.xKoord;
-	yKoord = x.yKoord; }
+	Extpair(const Extpair& x) : xKoord(x.xKoord),yKoord(x.yKoord)
+	{ }
 
 	float xKoord;
 	float yKoord;

@@ -8,7 +8,7 @@
 #define PI 3.14159265
 
 inline
-double alpha_max(double A, double B)
+float alpha_max(float A, float B)
 {
 	if(B > 0) 
 	{
@@ -73,19 +73,19 @@ private:
 	float to;
 	float tt;
 
-	double SetTension()
+	float SetTension()
 	{
-		double A1 = oo*oo + to*to;
-		double A2 = ot*ot + tt*tt;
-		double A3 = oo*ot + to*tt;
-		double alpha = alpha_max(A1 - A2, 2*A3);
+		float A1 = oo*oo + to*to;
+		float A2 = ot*ot + tt*tt;
+		float A3 = oo*ot + to*tt;
+		float alpha = alpha_max(A1 - A2, 2*A3);
 		tension = sqrt(A1*cos(alpha)*cos(alpha) + A2*sin(alpha)*sin(alpha) + A3*sin(2*alpha));
 		//tension = sqrt(oo*oo+ot*ot+tt*tt+to*to);
 		return tension;
 		
 	}
 
-	double GetTension()
+	float GetTension()
 	{
 		return tension;
 	}
