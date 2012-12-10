@@ -55,6 +55,7 @@ LPRECT lpDesktopWindow = new RECT;
 
 typedef int (*ColorFunc)(float, float, float, float, int);
 typedef float (*AlphaFunc)(float, float, float);
+//int redraw = 1;
 int size = 0;
 int nCmdSh = 0 ;
 int switcherAlpha = 0;
@@ -563,7 +564,9 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 
 BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	InitCommonControls();
-	Fractal f;
+	static Fractal f;
+	int funcSwitcher = 0;
+	void (*funcTemp)(std::list<ExtpairWT> &input);
 	std::vector<std::pair<float, float>> GraphicsPoints;
 	std::vector<float> Tensions;
 	int xSizeChild = 100;
@@ -581,6 +584,8 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	Extpair extpair;
 	Matrix matrix;
 	int iteration;
+
+	
 	/*CheckRadioButton(
 	hMainDlg,
 	IDC_COMPLETE,
@@ -598,6 +603,12 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 		SendDlgItemMessage(hWnd, IDC_GAMMA, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,100));
         SendMessage(GetDlgItem(hWnd, IDC_COLORINTENSE), TBM_SETPOS, TRUE, 0);
 		SendMessage(GetDlgItem(hWnd, IDC_GAMMA), TBM_SETPOS, TRUE, 50);
+
+		CheckDlgButton(
+				hWnd,
+				IDC_REDRAW,
+				BST_CHECKED
+				);
 
 		/*temp_shift = SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
 	        convertfloatToWchar(temp_shift, buff);
@@ -640,8 +651,12 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 				IDC_CHECKEPS,
 				BST_UNCHECKED
 				);
+
+		   if(switcherAlpha == 0){ funcTemp = floorListExtWTStrong;}
+		   else{funcTemp = floorListExtWTStrongInv;}
 			
-			
+			if(IsDlgButtonChecked(hWnd, IDC_REDRAW))
+			{
 			iteration = GetDlgItemInt(hMainDlg, IDC_ITERATIONNUMBER, NULL, FALSE );
 			f.fracsetW.clear();
 			f.basicpoints.clear();
@@ -653,14 +668,18 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			labelW:
 			try{
 			f.buildW(iteration, switcherAlpha);
+			}
 			//buildFractalPolygone(f);
-			wConvertFractalToPairVector(f, GraphicsPoints, Tensions);
-			SetBufferPointsW( GraphicsPoints, Tensions);}
 			catch(...)
 			{
 				iteration -= 1;
 				goto labelW;
 			}
+			}
+	        funcTemp(f.fracsetW);
+			wConvertFractalToPairVector(f, GraphicsPoints, Tensions);
+			SetBufferPointsW( GraphicsPoints, Tensions);
+			
 			// Initialize Direct3D
 			if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
 			{

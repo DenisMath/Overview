@@ -36,9 +36,9 @@ public:
 		int frsize=0;
 		ExtpairWT temp;
 		fracsetW.clear();
-		void (*funcTemp)(std::list<ExtpairWT> &input);
+		/*void (*funcTemp)(std::list<ExtpairWT> &input);
 		if(funcSwitcher == 0){ funcTemp = floorListExtWTStrong;}
-		else{funcTemp = floorListExtWTStrongInv;}
+		else{funcTemp = floorListExtWTStrongInv;}*/
 		//fracset.resize(pow((float)pntsize,n));
 		for(int i=0; i < pntsize; i++)
 		{
@@ -49,8 +49,7 @@ public:
 
 		for( int k=0; k < n; k++)
 		{
-			//fracsetW.sort();
-	        //fracsetW.unique();
+			
 			//fracsetW.sort(moreExtWT);
 	        //fracsetW.unique(equalExtpair);
 			 
@@ -65,8 +64,11 @@ public:
 				}
 				fracsetW.pop_front(); 
 			}
-			funcTemp(fracsetW);
+			//funcTemp(fracsetW);
+			fracsetW.sort();
+	        fracsetW.unique();
 		}
+		
 		//floorListExtWTWeak(fracsetW);
 		
 	}
