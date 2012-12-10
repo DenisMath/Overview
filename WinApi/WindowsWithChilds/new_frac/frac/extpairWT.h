@@ -78,10 +78,11 @@ bool moreExtWT(const ExtpairWT &a, const ExtpairWT &b)
 {
 	return b<a;
 }
+
 inline
  void floorListExtWTWeak(std::list<ExtpairWT> &input)
-{
-	for_each(input.begin(),input.end(),floorExtWT);
+{   
+	transform(input.begin(),input.end(),input.begin(), floorExtWT);
 	input.sort();
 	input.unique();
 }
@@ -89,9 +90,18 @@ inline
 inline
  void floorListExtWTStrong(std::list<ExtpairWT> &input)
 {
-	for_each(input.begin(),input.end(),floorExtWT);
+	transform(input.begin(), input.end(), input.begin(), floorExtWT);
 	//input.sort();
 	input.sort(moreExtWT);
+	input.unique(equalExtpair);
+}
+
+inline
+ void floorListExtWTStrongInv(std::list<ExtpairWT> &input)
+{
+	transform(input.begin(), input.end(), input.begin(), floorExtWT);
+	//input.sort();
+	input.sort();
 	input.unique(equalExtpair);
 }
 

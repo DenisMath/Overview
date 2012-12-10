@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <set>
+#include <new>
 #include "main.h"
 #include "resource2.h"
 #include <commctrl.h>       // must have
@@ -56,6 +57,7 @@ typedef int (*ColorFunc)(float, float, float, float, int);
 typedef float (*AlphaFunc)(float, float, float);
 int size = 0;
 int nCmdSh = 0 ;
+int switcherAlpha = 0;
 wchar_t buff[256];
 char cbuff[256];
 std::set<HWND> basicPointsWindows;
@@ -143,7 +145,14 @@ void SetBufferPointsW( const std::vector<std::pair<float, float>> &GraphicsPoint
 	float gamma = _wtof(buff);
 	
 	delete[] Vertices;
+	labelVerticesW:
+	try{
 	Vertices = new CUSTOMVERTEX[GraphicsPointsSize];
+	}
+	catch(...)
+	{
+		goto labelVerticesW;
+	}
 	for(int i=0; i<GraphicsPointsSize; i++)
 	{
 		Vertices[i].x = GraphicsPoints[i].first ;
@@ -641,11 +650,17 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			{
 				AddBasicPoint( *at , f );
 			}
-
-			f.buildW(iteration);
+			labelW:
+			try{
+			f.buildW(iteration, switcherAlpha);
 			//buildFractalPolygone(f);
 			wConvertFractalToPairVector(f, GraphicsPoints, Tensions);
-			SetBufferPointsW( GraphicsPoints, Tensions);
+			SetBufferPointsW( GraphicsPoints, Tensions);}
+			catch(...)
+			{
+				iteration -= 1;
+				goto labelW;
+			}
 			// Initialize Direct3D
 			if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
 			{
@@ -731,35 +746,43 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			//DialogBox(hInst, MAKEINTRESOURCE(IDD_CHILDDLG), hMainDlg, ChildDlgProc);
 			break;
 		case IDC_COLOR1:
-			toColor = toColor1;
+			toColor = toColor3;
+			switcherAlpha = 0;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
 			case IDC_COLOR2:
-			toColor = toColor2;
+			toColor = toColor4;
+			switcherAlpha = 0;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
 			case IDC_COLOR3:
 			toColor = toColor3;
+			switcherAlpha = 1;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
 			case IDC_COLOR4:
 			toColor = toColor4;
+			switcherAlpha = 1;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
 			case IDC_COLOR5:
-			toColor = toColor5;
+			toColor = toColor7;
+			switcherAlpha = 0;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
 			case IDC_COLOR6:
-			toColor = toColor6;
+			toColor = toColor8;
+			switcherAlpha = 0;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
 			case IDC_COLOR7:
 			toColor = toColor7;
+			switcherAlpha = 1;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
 			case IDC_COLOR8:
 			toColor = toColor8;
+			switcherAlpha = 1;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
 			
@@ -781,10 +804,17 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 				AddBasicPoint( *at , f );
 			}
 
+			label1:
+			try{
 			f.build(iteration);
 			//buildFractalPolygone(f);
 			convertFractalToPairVector(f, GraphicsPoints);
-			SetBufferPoints( GraphicsPoints);
+			SetBufferPoints( GraphicsPoints);}
+			catch(...)
+			{
+				iteration -= 1;
+				goto label1;
+			}
 			// Initialize Direct3D
 			if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
 			{

@@ -30,14 +30,17 @@ public:
 		basicpoints.push_back(t);
 	}
 
-	void buildW(int n)
+	void buildW(int n, int funcSwitcher = 0)
 	{
 		int pntsize=basicpoints.size();
 		int frsize=0;
 		ExtpairWT temp;
 		fracsetW.clear();
+		void (*funcTemp)(std::list<ExtpairWT> &input);
+		if(funcSwitcher == 0){ funcTemp = floorListExtWTStrong;}
+		else{funcTemp = floorListExtWTStrongInv;}
 		//fracset.resize(pow((float)pntsize,n));
-		for(int i=0;i < pntsize; i++)
+		for(int i=0; i < pntsize; i++)
 		{
 			temp.extpair = basicpoints[i].point;
 			temp.tension = basicpoints[i].transform.SetTension();
@@ -48,8 +51,9 @@ public:
 		{
 			//fracsetW.sort();
 	        //fracsetW.unique();
-			fracsetW.sort(moreExtWT);
-	        fracsetW.unique(equalExtpair);
+			//fracsetW.sort(moreExtWT);
+	        //fracsetW.unique(equalExtpair);
+			 
 			
 
 			frsize=fracsetW.size();
@@ -61,9 +65,10 @@ public:
 				}
 				fracsetW.pop_front(); 
 			}
+			funcTemp(fracsetW);
 		}
 		//floorListExtWTWeak(fracsetW);
-		floorListExtWTStrong(fracsetW);
+		
 	}
 
 	void build(int n)
