@@ -563,7 +563,7 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 
 BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	InitCommonControls();
-	Fractal f;
+	static Fractal f;
 	std::vector<std::pair<float, float>> GraphicsPoints;
 	std::vector<float> Tensions;
 	int xSizeChild = 100;
