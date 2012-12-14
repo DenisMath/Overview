@@ -62,6 +62,8 @@ int switcherAlpha = 0;
 wchar_t buff[256];
 char cbuff[256];
 std::set<HWND> basicPointsWindows;
+int temp_background = 0;
+float temp_plitecolor = 0;
 //Fractal f;
 
 float toAlpha1(float x, float max_temp, float min_temp)
@@ -72,12 +74,14 @@ float toAlpha1(float x, float max_temp, float min_temp)
 
 int toColor1(float x, float max_temp, float min_temp, float gamma, int shift)
 {
-	return 0x000001 * ((int)floor((x/max_temp)*0xFFFFFF)%0xFFFFFF);
+	float temp = min_temp/x;
+	return temp_plitecolor*(int)((0xFF-shift)*pow(temp, gamma)+shift);
 }
 
 int toColor2(float x, float max_temp, float min_temp, float gamma, int shift)
 {
-	return  0x010000 * ((0xFF-shift)*((int)floor(log(max_temp)/log(x))%0xFF)+shift);
+	float temp = x/max_temp;
+	return temp_plitecolor*(int)((0xFF-shift)*pow(temp, gamma)+shift);
 }
 
 int toColor3(float x, float max_temp, float min_temp, float gamma, int shift)
@@ -119,7 +123,7 @@ int toColor8(float x, float max_temp, float min_temp, float gamma, int shift)
 
 
 ColorFunc toColor=toColor1;
-AlphaFunc toAlpha=toAlpha1;
+//AlphaFunc toAlpha=toAlpha1;
 
 void SetBufferPoints( const std::vector<std::pair<float, float>> &GraphicsPoints)
 {
@@ -168,7 +172,7 @@ void SetBufferPointsW( const std::vector<std::pair<float, float>> &GraphicsPoint
 void deleteBufferPoints()
 {
 	delete[] Vertices;
-};
+}
 
 
 
@@ -280,7 +284,7 @@ VOID Cleanup()
 VOID Render()
 {
 	// Clear the backbuffer to a blue color
-	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB( 0, 0, 0 ), 1.0f, 0 );
+	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, (D3DCOLOR)(int)temp_background, 1.0f, 0 );
 
 	// Begin the scene
 	if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
@@ -639,7 +643,15 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			temp_gamma = pow((float)1.3, (float)( SendDlgItemMessage(hWnd, IDC_GAMMA, TBM_GETPOS, 0,0) - 50) / 10 );
 	        convertfloatToWchar(temp_gamma, buff);
 	        SetDlgItemText(hWnd,IDC_GAMMACOEF,buff);
-			//SetDlgItemInt(hWnd, IDC_EDIT1, 100 - (int)pos*10,0);
+
+			temp_background = (SendDlgItemMessage(hWnd, IDC_BACKGROUND, TBM_GETPOS, 0,0)*0xFFFFFF)/100;
+	        convertfloatToWchar(temp_background, buff);
+	        SetDlgItemText(hWnd,IDC_EDIT_BACKGROUND,buff);
+
+			temp_plitecolor = (SendDlgItemMessage(hWnd, IDC_PLITECOLOR, TBM_GETPOS, 0,0)*0xFFFFFF)/100;
+	        convertfloatToWchar(temp_plitecolor, buff);
+	        SetDlgItemText(hWnd,IDC_EDIT_PLITECOLOR ,buff);
+			
 			break;
 		}
 
@@ -700,7 +712,7 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
-		case IDOK:
+		case IDC_GAMMACALIBRATE:
 			SendMessage(GetDlgItem(hWnd, IDC_GAMMA), TBM_SETPOS, TRUE, 50);
 			temp_shift = SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
 	        convertfloatToWchar(temp_shift, buff);
@@ -765,12 +777,12 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			//DialogBox(hInst, MAKEINTRESOURCE(IDD_CHILDDLG), hMainDlg, ChildDlgProc);
 			break;
 		case IDC_COLOR1:
-			toColor = toColor3;
+			toColor = toColor1;
 			switcherAlpha = 0;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
 			case IDC_COLOR2:
-			toColor = toColor4;
+			toColor = toColor2;
 			switcherAlpha = 0;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
