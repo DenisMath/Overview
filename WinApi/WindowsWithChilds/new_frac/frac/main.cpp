@@ -63,13 +63,55 @@ wchar_t buff[256];
 char cbuff[256];
 std::set<HWND> basicPointsWindows;
 int temp_background = 0;
-float temp_plitecolor = 0;
+float temp_plitecolor = 0x010101;
+wchar_t* my_buff = L"NONE_COLOR";
 //Fractal f;
 
 float toAlpha1(float x, float max_temp, float min_temp)
 {
 	return 1.0f;
 	//return min_temp*min_temp/(x*x);
+}
+
+int getClearColor(int slider_pos, int slider_size)
+{
+	float temp = (float)slider_size/7;
+	if(slider_pos < temp)
+	{return 0x010101;}
+	else if(slider_pos < 2*temp)
+	{return 0x000101;}
+	else if(slider_pos < 3*temp)
+	{return 0x010001;}
+	else if(slider_pos < 4*temp)
+	{return 0x010100;}
+	else if(slider_pos < 5*temp)
+	{return 0x000001;}
+	else if(slider_pos < 6*temp)
+	{return 0x000100;}
+	else if(slider_pos < 7*temp)
+	{return 0x010000;}
+	else {return 0;}
+}
+
+void getNameColor(int slider_pos, int slider_size)
+{
+	float temp = (float)slider_size/7;
+	if(slider_pos < temp)
+	{my_buff = L"GREY";}
+	else if(slider_pos < 2*temp)
+	{my_buff = L"BIRIUZA";}
+	else if(slider_pos < 3*temp)
+	{my_buff = L"FIOLET";}
+	else if(slider_pos < 4*temp)
+	{my_buff = L"SALAT";}
+	else if(slider_pos < 5*temp)
+	{my_buff = L"BLUE";}
+	else if(slider_pos < 6*temp)
+	{my_buff = L"GREEN";}
+	else if(slider_pos < 7*temp)
+	{my_buff = L"RED";}
+	else {my_buff = L"NONE";}
+
 }
 
 int toColor1(float x, float max_temp, float min_temp, float gamma, int shift)
@@ -284,8 +326,8 @@ VOID Cleanup()
 VOID Render()
 {
 	// Clear the backbuffer to a blue color
-	g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, (D3DCOLOR)(int)temp_background, 1.0f, 0 );
-
+	if( SUCCEEDED(g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, (D3DCOLOR)(int)temp_background, 1.0f, 0 )))
+	{
 	// Begin the scene
 	if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
 	{
@@ -304,7 +346,7 @@ VOID Render()
 		// End the scene
 		g_pd3dDevice->EndScene();
 	}
-
+	}
 	// Present the backbuffer contents to the display
 	g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
 }
@@ -455,6 +497,18 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	double a11, a12, a21, a22, xCoord, yCoord;
 	BasicPoint bpoint;
 	switch(uMsg) {
+		case WM_CREATE:
+			CheckDlgButton(
+				hMainDlg,
+				IDC_REDRAW,
+				BST_UNCHECKED
+				);
+		CheckDlgButton(
+				hMainDlg,
+				IDC_REDRAW,
+				BST_CHECKED
+				);
+		break;
 	case WM_ACTIVATE:
 		TempChild = hWnd;
 		temp_pos = (100.0 - SendDlgItemMessage(hWnd, IDC_TENSION, TBM_GETPOS, 0,0));
@@ -588,6 +642,7 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	Extpair extpair;
 	Matrix matrix;
 	int iteration;
+	
 
 	
 	/*CheckRadioButton(
@@ -648,9 +703,11 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	        convertfloatToWchar(temp_background, buff);
 	        SetDlgItemText(hWnd,IDC_EDIT_BACKGROUND,buff);
 
-			temp_plitecolor = (SendDlgItemMessage(hWnd, IDC_PLITECOLOR, TBM_GETPOS, 0,0)*0xFFFFFF)/100;
-	        convertfloatToWchar(temp_plitecolor, buff);
-	        SetDlgItemText(hWnd,IDC_EDIT_PLITECOLOR ,buff);
+			temp_shift = SendDlgItemMessage(hWnd, IDC_PLITECOLOR, TBM_GETPOS, 0,0);
+			temp_plitecolor = getClearColor(temp_shift ,100);
+	       // convertfloatToWchar(SendDlgItemMessage(hWnd, IDC_PLITECOLOR, TBM_GETPOS, 0,0)/7, buff);
+			getNameColor(temp_shift , 100);
+	        SetDlgItemText(hWnd, IDC_EDIT_PLITECOLOR , my_buff);
 			
 			break;
 		}
@@ -738,6 +795,11 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 				);
 			break;
 		case IDC_ADD:
+			CheckDlgButton(
+				hWnd,
+				IDC_REDRAW,
+				BST_CHECKED
+				);
 			basicPointsWindows.insert(TempChild = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CHILDDLG), (HWND)hMainDlg, ChildDlgProc));
 			SendDlgItemMessage(TempChild, IDC_TENSION, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,90));
 			//SendDlgItemMessage(TempChild, IDC_TENSION, TBM_SETPOS, (WPARAM)1, (LPARAM)5);
@@ -787,12 +849,12 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
 			case IDC_COLOR3:
-			toColor = toColor3;
+			toColor = toColor1;
 			switcherAlpha = 1;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
 			case IDC_COLOR4:
-			toColor = toColor4;
+			toColor = toColor2;
 			switcherAlpha = 1;
 			SendMessage(hWnd,DRAW_MSG,NULL,NULL);
 			break;
