@@ -75,43 +75,62 @@ float toAlpha1(float x, float max_temp, float min_temp)
 
 int getClearColor(int slider_pos, int slider_size)
 {
-	float temp = (float)slider_size/7;
-	if(slider_pos < temp)
-	{return 0x010101;}
-	else if(slider_pos < 2*temp)
-	{return 0x000101;}
-	else if(slider_pos < 3*temp)
-	{return 0x010001;}
-	else if(slider_pos < 4*temp)
-	{return 0x010100;}
-	else if(slider_pos < 5*temp)
-	{return 0x000001;}
-	else if(slider_pos < 6*temp)
-	{return 0x000100;}
-	else if(slider_pos < 7*temp)
-	{return 0x010000;}
-	else {return 0;}
+	switch(slider_pos ){
+		case 0:
+			return 0x010101;
+			break;
+		case 1:
+			return 0x000101;
+			break;
+		case 2:
+			return 0x010001;
+			break;
+		case 3:
+			return 0x010100;
+			break;
+		case 4:
+			return 0x000001;
+			break;
+		case 5:
+			return 0x000100;
+			break;
+		case 6:
+			return 0x010000;
+			break;
+		default:
+			return 0x000000;
+			break;	}
 }
 
 void getNameColor(int slider_pos, int slider_size)
 {
-	float temp = (float)slider_size/7;
-	if(slider_pos < temp)
-	{my_buff = L"GREY";}
-	else if(slider_pos < 2*temp)
-	{my_buff = L"BIRIUZA";}
-	else if(slider_pos < 3*temp)
-	{my_buff = L"FIOLET";}
-	else if(slider_pos < 4*temp)
-	{my_buff = L"SALAT";}
-	else if(slider_pos < 5*temp)
-	{my_buff = L"BLUE";}
-	else if(slider_pos < 6*temp)
-	{my_buff = L"GREEN";}
-	else if(slider_pos < 7*temp)
-	{my_buff = L"RED";}
-	else {my_buff = L"NONE";}
-
+	switch(slider_pos )
+	{
+		case 0:
+			my_buff = L"GREY";
+			break;
+		case 1:
+			my_buff = L"BIRIUZA";
+			break;
+		case 2:
+			my_buff = L"FIOLET";
+			break;
+		case 3:
+			my_buff = L"SALAT";
+			break;
+		case 4:
+			my_buff = L"BLUE";
+			break;
+		case 5:
+			my_buff = L"GREEN";
+			break;
+		case 6:
+			my_buff = L"RED";
+			break;
+		default:
+			my_buff = L"NONE";
+			break;	
+	}
 }
 
 int toColor1(float x, float max_temp, float min_temp, float gamma, int shift)
@@ -190,8 +209,9 @@ void SetBufferPointsW( const std::vector<std::pair<float, float>> &GraphicsPoint
 	int shift = SendDlgItemMessage(hMainDlg, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
 	GetDlgItemText(hMainDlg, IDC_GAMMACOEF, buff, 256);
 	float gamma = _wtof(buff);
-	
+	//problem with memeory?
 	delete[] Vertices;
+
 	labelVerticesW:
 	try{
 	Vertices = new CUSTOMVERTEX[GraphicsPointsSize];
@@ -324,9 +344,10 @@ VOID Cleanup()
 
 
 VOID Render()
-{
+{ 
+	int color_backgr = (int)temp_background % (0xFFFFFF+1) ;
 	// Clear the backbuffer to a blue color
-	if( SUCCEEDED(g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, (D3DCOLOR)(int)temp_background, 1.0f, 0 )))
+	if( SUCCEEDED(g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, (D3DCOLOR)color_backgr, 1.0f, 0 )))
 	{
 	// Begin the scene
 	if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
@@ -656,18 +677,8 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	IDC_BUILDINGEPS,
 	IDC_COMPLETEEPS);*/
 	switch(uMsg) {
-		case WM_CREATE:
-		SetDlgItemText(hWnd,IDC_ITERATIONNUMBER,L"1");
-		SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,100));
-		SendDlgItemMessage(hWnd, IDC_GAMMA, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,100));
-        SendMessage(GetDlgItem(hWnd, IDC_COLORINTENSE), TBM_SETPOS, TRUE, 0);
-		SendMessage(GetDlgItem(hWnd, IDC_GAMMA), TBM_SETPOS, TRUE, 50);
-
-		CheckDlgButton(
-				hWnd,
-				IDC_REDRAW,
-				BST_CHECKED
-				);
+		//case WM_CREATE:
+		
 
 		/*temp_shift = SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
 	        convertfloatToWchar(temp_shift, buff);
@@ -677,6 +688,24 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	        convertfloatToWchar(temp_gamma, buff);
 	        SetDlgItemText(hWnd,IDC_GAMMACOEF,buff);*/
 		//CreateWindow(L"BUTTON",L"Draw",WS_CHILD|BS_DEFPUSHBUTTON,0,0,90,20,hWnd,(HMENU)IDC_DRAW,GetModuleHandle(NULL),NULL);
+		//break;
+	case WM_PAINT:
+		SetDlgItemText(hWnd,IDC_ITERATIONNUMBER,L"1");
+		SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,100));
+
+		SendDlgItemMessage(hWnd, IDC_GAMMA, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,100));
+
+		SendDlgItemMessage(hWnd, IDC_PLITECOLOR, TBM_SETRANGE, (WPARAM)1, (LPARAM)MAKELONG(0,7));
+		SendDlgItemMessage(hWnd, IDC_PLITECOLOR, TBM_SETTICFREQ, (WPARAM)1, (LPARAM)MAKELONG(0,7));
+
+        SendMessage(GetDlgItem(hWnd, IDC_COLORINTENSE), TBM_SETPOS, TRUE, 0);
+		SendMessage(GetDlgItem(hWnd, IDC_GAMMA), TBM_SETPOS, TRUE, 50);
+
+		CheckDlgButton(
+				hWnd,
+				IDC_REDRAW,
+				BST_CHECKED
+				);
 		break;
 		case WM_HSCROLL:
 		switch(LOWORD(wParam))
@@ -699,7 +728,7 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	        convertfloatToWchar(temp_gamma, buff);
 	        SetDlgItemText(hWnd,IDC_GAMMACOEF,buff);
 
-			temp_background = (SendDlgItemMessage(hWnd, IDC_BACKGROUND, TBM_GETPOS, 0,0)*0xFFFFFF)/100;
+			temp_background = (int)((SendDlgItemMessage(hWnd, IDC_BACKGROUND, TBM_GETPOS, 0,0)/100.0)*0xFFFFFF);
 	        convertfloatToWchar(temp_background, buff);
 	        SetDlgItemText(hWnd,IDC_EDIT_BACKGROUND,buff);
 
@@ -1066,7 +1095,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	NULL, NULL, wc.hInstance, NULL );*/
 
 	hWndDirectX = CreateWindow( L"D3D Tutorial", L"Self-Affine Plite",
-		WS_OVERLAPPEDWINDOW, lpMainDialogRect->right, 0, lpDesktopWindow->right - lpMainDialogRect->right , lpDesktopWindow->bottom,
+		WS_OVERLAPPEDWINDOW, 0, 0, lpDesktopWindow->right, lpDesktopWindow->bottom,
 		NULL, NULL, wc.hInstance, NULL );
 
 	// Initialize Direct3D

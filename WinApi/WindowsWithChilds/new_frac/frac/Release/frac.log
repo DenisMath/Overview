@@ -1,0 +1,19 @@
+﻿Build started 12/24/2012 7:42:20 PM.
+     1>Project "D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\frac.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+         frac.vcxproj -> D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\Release\frac.exe
+       FinalizeBuildStatus:
+         Deleting file "Release\frac.unsuccessfulbuild".
+         Touching "Release\frac.lastbuildstate".
+     1>Done Building Project "D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.84
