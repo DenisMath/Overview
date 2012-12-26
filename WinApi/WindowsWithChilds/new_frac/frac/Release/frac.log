@@ -1,103 +1,19 @@
-﻿Build started 12/24/2012 8:44:13 PM.
-     1>Project "C:\Documents and Settings\d.morozov\My Documents\Visual Studio 2010\Projects\new_frac\frac\frac.vcxproj" on node 2 (build target(s)).
+﻿Build started 12/26/2012 8:07:42 PM.
+     1>Project "D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\frac.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
-         main.cpp
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\resource2.h(5): warning C4005: 'IDD_MAINDLG' : macro redefinition
-                 c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\main.h(1) : see previous definition of 'IDD_MAINDLG'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\resource2.h(6): warning C4005: 'IDD_CHILDDLG' : macro redefinition
-                 c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\main.h(3) : see previous definition of 'IDD_CHILDDLG'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\extpair.h(63): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\extpair.h(63): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\matrix.h(21): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\matrix.h(25): warning C4305: 'return' : truncation from 'double' to 'float'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\matrix.h(32): warning C4305: 'return' : truncation from 'double' to 'float'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\matrix.h(36): warning C4305: 'return' : truncation from 'double' to 'float'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\matrix.h(47): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\matrix.h(52): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\matrix.h(57): warning C4305: 'return' : truncation from 'double' to 'float'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\fractal.h(173): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\fractal.h(180): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\fractal.h(214): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\fractal.h(232): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\fractal.h(292): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\fractal.h(311): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\fractal.h(341): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\fractal.h(341): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\fractal.h(341): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\fractal.h(341): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(145): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(311): warning C4996: '_gcvt': This function or variable may be unsafe. Consider using _gcvt_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdlib.h(729) : see declaration of '_gcvt'
-     1>main.cpp(360): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(365): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(370): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(375): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(380): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(385): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(406): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(411): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(416): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(421): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(426): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(431): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(472): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(472): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(472): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(472): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(475): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(537): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>main.cpp(542): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>main.cpp(542): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>main.cpp(542): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>main.cpp(542): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>main.cpp(450): warning C4101: 'xCoord' : unreferenced local variable
-     1>main.cpp(450): warning C4101: 'a12' : unreferenced local variable
-     1>main.cpp(450): warning C4101: 'a21' : unreferenced local variable
-     1>main.cpp(450): warning C4101: 'yCoord' : unreferenced local variable
-     1>main.cpp(450): warning C4101: 'a11' : unreferenced local variable
-     1>main.cpp(450): warning C4101: 'a22' : unreferenced local variable
-     1>main.cpp(625): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>main.cpp(687): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>main.cpp(734): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdlib.h(645) : see declaration of '_itow'
-     1>main.cpp(853): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files\Microsoft Visual Studio 10.0\VC\include\stdlib.h(645) : see declaration of '_itow'
-     1>main.cpp(579): warning C4101: 'xCoord' : unreferenced local variable
-     1>main.cpp(578): warning C4101: 'a12' : unreferenced local variable
-     1>main.cpp(578): warning C4101: 'a21' : unreferenced local variable
-     1>main.cpp(579): warning C4101: 'yCoord' : unreferenced local variable
-     1>main.cpp(578): warning C4101: 'a11' : unreferenced local variable
-     1>main.cpp(578): warning C4101: 'a22' : unreferenced local variable
-     1>main.cpp(957): warning C4305: 'argument' : truncation from 'double' to 'float'
+         All outputs are up-to-date.
        ResourceCompile:
-         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /l"0x0409" /nologo /fo"Release\main.res" main.rc 
+         All outputs are up-to-date.
        Link:
-         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Documents and Settings\d.morozov\My Documents\Visual Studio 2010\Projects\new_frac\Release\frac.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\frac.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Documents and Settings\d.morozov\My Documents\Visual Studio 2010\Projects\new_frac\Release\frac.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Documents and Settings\d.morozov\My Documents\Visual Studio 2010\Projects\new_frac\Release\frac.lib" /MACHINE:X86 Release\main.res
-         Release\main.obj
-         Generating code
-     1>c:\documents and settings\d.morozov\my documents\visual studio 2010\projects\new_frac\frac\matrix.h(52): warning C4723: potential divide by 0
-         Finished generating code
-         frac.vcxproj -> C:\Documents and Settings\d.morozov\My Documents\Visual Studio 2010\Projects\new_frac\Release\frac.exe
-       Manifest:
-         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Documents and Settings\d.morozov\My Documents\Visual Studio 2010\Projects\new_frac\Release\frac.exe;#1" /manifest Release\frac.exe.intermediate.manifest
+         All outputs are up-to-date.
+         frac.vcxproj -> D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\Release\frac.exe
        FinalizeBuildStatus:
          Deleting file "Release\frac.unsuccessfulbuild".
          Touching "Release\frac.lastbuildstate".
-     1>Done Building Project "C:\Documents and Settings\d.morozov\My Documents\Visual Studio 2010\Projects\new_frac\frac\frac.vcxproj" (build target(s)).
+     1>Done Building Project "D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.32
+Time Elapsed 00:00:00.65
