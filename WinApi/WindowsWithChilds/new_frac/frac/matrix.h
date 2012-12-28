@@ -65,8 +65,11 @@ private:
 	float tension;
 	public:
 
-	Matrix(float x = 1,float y = 0,float z = 0,float v = 1):oo(x),ot(y),to(z),tt(v)
+	Matrix(float x = 1,float y = 0,float z = 0,float v = 1): oo(x), ot(y), to(z), tt(v)
 	{ tension = 0; }
+
+	Matrix(const Matrix & a): oo(a.oo), ot(a.ot), to(a.to), tt(a.tt)
+	{ }
 
 	float oo;
 	float ot;
@@ -96,10 +99,17 @@ private:
 		return tmp;
 	}
 
+	Extpair operator*(const Extpair &v)//mult 2x2 matrix on row vector;
+	{
+		Extpair tmp( oo*(v.xKoord)+ot*(v.yKoord) , to*(v.xKoord)+tt*(v.yKoord) );
+		return tmp;
+	}
+
 	friend Matrix operator-(const Matrix &a1); 
 	friend Matrix operator+(const Matrix & a1, const Matrix & a2); 
 	friend Matrix operator-(const Matrix & a1, const Matrix & a2); 
 	friend Matrix operator*(const Matrix & a1, const Matrix & a2); 
+	friend Matrix operator*(float a1, const Matrix & a2); 
 	friend bool operator==(const Matrix & a1, const Matrix & a2); 
 
 	Matrix & operator=(const Matrix &m){
@@ -111,49 +121,66 @@ return *this;
 	}
 };
 
+const Matrix ID_MATRIX(1,0,0,1);
+
 inline
 Matrix operator-(const Matrix &a1){
 	Matrix tmp(-a1.oo, -a1.ot, -a1.to, -a1.tt);
-	/*tmp.oo=-a1.oo;
-	tmp.ot=-a1.ot;
-	tmp.to=-a1.to;
-	tmp.tt=-a1.tt;*/
 	return tmp;
 }
 
 inline
 Matrix operator+(const Matrix & a1, const Matrix & a2){
 	Matrix tmp(a1.oo+a2.oo, a1.ot+a2.ot, a1.to+a2.to, a1.tt+a2.tt);
-	/*tmp.oo=a1.oo+a2.oo;
-	tmp.ot=a1.ot+a2.ot;
-	tmp.to=a1.to+a2.to;
-	tmp.tt=a1.tt+a2.tt;*/
 	return tmp;
 }
 
 inline
 Matrix operator-(const Matrix & a1, const Matrix & a2){
 	Matrix tmp(a1.oo-a2.oo, a1.ot-a2.ot, a1.to-a2.to, a1.tt-a2.tt);
-	/*tmp.oo=a1.oo-a2.oo;
-	tmp.ot=a1.ot-a2.ot;
-	tmp.to=a1.to-a2.to;
-	tmp.tt=a1.tt-a2.tt;*/
 	return tmp;
 }
 
 inline
 Matrix operator*(const Matrix & a1, const Matrix & a2){
 	Matrix tmp(a1.oo*a2.oo+a1.ot*a2.to, a1.oo*a2.ot+a1.ot*a2.tt, a1.to*a2.oo+a1.tt*a2.to, a1.to*a2.ot+a1.tt*a2.tt);
-	/*tmp.oo=a1.oo*a2.oo+a1.ot*a2.to;
-	tmp.ot=a1.oo*a2.ot+a1.ot*a2.tt;
-	tmp.to=a1.to*a2.oo+a1.tt*a2.to;
-	tmp.tt=a1.to*a2.ot+a1.tt*a2.tt;*/
 	return tmp;
 }
 
 inline
-bool operator==(const Matrix & a1, const Matrix & a2){
-	
+Matrix operator*(float a1, const Matrix & a2){
+	Matrix tmp(a1*a2.oo, a1*a2.ot, a1*a2.to, a1*a2.tt);
+	return tmp;
+}
+
+inline
+bool operator==(const Matrix & a1, const Matrix & a2)
+{
 	return ((a1.oo==a2.oo)&&(a1.ot==a2.ot)&&(a1.to==a2.to)&&(a1.tt==a2.tt));
 }
+
+inline 
+	float detOfMatrix(const Matrix & a)
+{
+	return (a.oo*a.tt - a.to*a.ot);
+}
+
+inline
+Matrix invMatrix(const Matrix &a){
+	double temp = detOfMatrix(a);
+	Matrix tmp(a.tt, -a.ot, -a.to, a.oo);
+	double temp1 = 1/temp;
+	if(temp = 0){return ID_MATRIX;}
+	else{return temp1*tmp;}
+}
+
+inline
+Extpair getStablePoint(const Matrix & a, const Extpair &b)//return stable point of a*x + b
+{
+	Matrix temp = invMatrix(ID_MATRIX - a);
+	Extpair temp1 = temp*b;
+	return temp*b;
+}
+
+
 #endif

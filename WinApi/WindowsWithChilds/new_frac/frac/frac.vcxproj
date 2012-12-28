@@ -60,9 +60,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="bpoint.h" />
     <ClInclude Include="extpair.h" />
     <ClInclude Include="extpairWT.h" />
@@ -74,6 +71,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="main.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -45,7 +45,7 @@ int GraphicsPointsSize;
 //std::vector<float> Tensions;
 CUSTOMVERTEX* Vertices = new CUSTOMVERTEX[2];
 
-HWND hMainDlg, TempChild, hWndDirectX;
+HWND hMainDlg, TempChild,  hWndDirectX;
 HINSTANCE hInst;
 LPRECT lpMainDialogRect = new RECT;
 LPRECT lpMainDialogRectChild = new RECT;
@@ -348,6 +348,34 @@ void SetBasicPoint(HWND &hWnd, float a11,float a12,float a21,float a22,float xCo
 	
 }
 
+void SetBasicPoint(HWND &hWnd, BasicPoint & bpoint )
+{
+	//wchar_t buff[256];
+	
+	//char cbuff[256];
+	//memset(buff,0,sizeof(wchar_t)*256);
+	//sprintf(a11,buff,256);
+	//sprintf( buff, "%e", a11 );
+	//wcstof( const wchar_t* str, wchar_t** str_end )
+
+	//FormatFloat
+	//memset(buff,0,sizeof(wchar_t)*256);
+	convertfloatToWchar(bpoint.transform.oo, buff);
+	SetDlgItemText(hWnd,IDC_A11, buff);
+	//memset(buff,0,sizeof(wchar_t)*256);
+	convertfloatToWchar(bpoint.transform.ot, buff);
+	SetDlgItemText(hWnd,IDC_A12,buff);
+	convertfloatToWchar(bpoint.transform.to, buff);
+	SetDlgItemText(hWnd,IDC_A21,buff);
+	convertfloatToWchar(bpoint.transform.tt, buff);
+	SetDlgItemText(hWnd,IDC_A22,buff);
+	convertfloatToWchar(bpoint.point.xKoord, buff);
+	SetDlgItemText(hWnd,IDC_X,buff);
+	convertfloatToWchar(bpoint.point.yKoord, buff);
+	SetDlgItemText(hWnd,IDC_Y,buff);
+	
+}
+
 void GetBasicPoint(const HWND &hWnd, BasicPoint &bpoint )
 {
 	//wchar_t buff[256];
@@ -437,7 +465,35 @@ void AddBasicPoint(const HWND &hWnd, Fractal &fractal )
 
 }
 
+void convertExistingBPoints(Extpair & centerPoint)
+{
+	float xCoord, yCoord;
+	std::set<HWND>::iterator at;
+	std::set<HWND>::const_iterator at_const;
+	HWND TempChild_lite;
+	BasicPoint tempBPoint; 
+	for(at_const = at = basicPointsWindows.begin(); at != basicPointsWindows.end(); at++, at_const++)
+	{
+		TempChild_lite = *at;
+		GetBasicPoint( TempChild_lite , tempBPoint );
+		GetDlgItemText(TempChild_lite,
+			IDC_XALT,
+			buff,
+			256);
+		xCoord = _wtof(buff);
+		GetDlgItemText(TempChild_lite,
+			IDC_YALT,
+			buff,
+			256);
+		yCoord = _wtof(buff);
+		tempBPoint.point.xKoord = xCoord;
+		tempBPoint.point.yKoord = yCoord;
+		tempBPoint = convertBPoint( tempBPoint, centerPoint);
+		//SetBasicPoint( TempChild_lite , tempBPoint.transform.oo, tempBPoint.transform.ot, tempBPoint.transform.to, tempBPoint.transform.tt, tempBPoint.point.xKoord,  tempBPoint.point.yKoord );
+		SetBasicPoint( TempChild_lite , tempBPoint );
+	}
 
+}
 
 
 BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
@@ -483,6 +539,18 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 		break;
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
+			case IDC_SETALT:
+			GetDlgItemText(hWnd,
+				IDC_X,
+				buff,
+				256);
+			SetDlgItemText(hWnd,IDC_XALT,buff);
+			GetDlgItemText(hWnd,
+				IDC_Y,
+				buff,
+				256);
+			SetDlgItemText(hWnd,IDC_YALT,buff);
+			break;
 	case IDC_MATRIXTYPE1:
 		GetBasicPoint(hWnd, bpoint);
 		SetBasicPoint(hWnd, 1, 1, 1, 1, bpoint.point.xKoord, bpoint.point.yKoord);
@@ -608,6 +676,9 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	        SetDlgItemText(hWnd,IDC_GAMMACOEF,buff);*/
 		//CreateWindow(L"BUTTON",L"Draw",WS_CHILD|BS_DEFPUSHBUTTON,0,0,90,20,hWnd,(HMENU)IDC_DRAW,GetModuleHandle(NULL),NULL);
 		break;
+		case WM_ACTIVATE:
+		TempChild = hWnd;
+		break;
 		case WM_HSCROLL:
 		switch(LOWORD(wParam))
 		{
@@ -681,6 +752,19 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
+		case IDC_CONVERTBPOINTS:
+			GetDlgItemText(hWnd,
+				IDC_XCENTER,
+				buff,
+				256);
+			extpair.xKoord = _wtof(buff);
+			GetDlgItemText(hWnd,
+				IDC_YCENTER,
+				buff,
+				256);
+			extpair.yKoord  = _wtof(buff);
+			convertExistingBPoints(extpair);
+			break;
 		case IDOK:
 			SendMessage(GetDlgItem(hWnd, IDC_GAMMA), TBM_SETPOS, TRUE, 50);
 			temp_shift = SendDlgItemMessage(hWnd, IDC_COLORINTENSE, TBM_GETPOS, 0,0);
@@ -742,6 +826,8 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 			SetDlgItemText(TempChild,IDC_A22,L"0.5");
 			SetDlgItemText(TempChild,IDC_X,L"100.0");
 			SetDlgItemText(TempChild,IDC_Y,L"100.0");
+			SetDlgItemText(TempChild,IDC_XALT,L"100.0");
+			SetDlgItemText(TempChild,IDC_YALT,L"100.0");
 		    SendMessage(TempChild, WM_COMMAND, (WPARAM)IDC_CALIBRATE, 0);
 			//DialogBox(hInst, MAKEINTRESOURCE(IDD_CHILDDLG), hMainDlg, ChildDlgProc);
 			break;
@@ -893,8 +979,16 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 
 		break;*/
 	case WM_LBUTTONDOWN:
+		if(TempChild == hMainDlg)
+		{
+			SetDlgItemInt(TempChild,IDC_XCENTER, LOWORD(lParam) , FALSE);
+		    SetDlgItemInt(TempChild,IDC_YCENTER, HIWORD(lParam) , FALSE);
+		}
+		else
+		{
 		SetDlgItemInt(TempChild,IDC_X, LOWORD(lParam) , FALSE);
 		SetDlgItemInt(TempChild,IDC_Y, HIWORD(lParam) , FALSE);
+		}
 		break;
 	case WM_DESTROY:
 		Cleanup();

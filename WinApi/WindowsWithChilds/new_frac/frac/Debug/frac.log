@@ -1,7 +1,7 @@
-﻿Build started 12/14/2012 6:32:02 PM.
+﻿Build started 12/27/2012 6:52:59 PM.
      1>Project "D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\frac.unsuccessfulbuild".
+         Creating "Debug\frac.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
@@ -18,74 +18,71 @@
      1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\matrix.h(47): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
      1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\matrix.h(52): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
      1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\matrix.h(57): warning C4305: 'return' : truncation from 'double' to 'float'
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(175): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\matrix.h(171): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(173): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(182): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(180): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(216): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(214): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(234): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(232): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(294): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(292): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(313): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(311): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(343): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(343): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(343): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(343): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(120): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(126): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(192): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(358): warning C4996: '_gcvt': This function or variable may be unsafe. Consider using _gcvt_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(341): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(341): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(341): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\fractal.h(341): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(145): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(311): warning C4996: '_gcvt': This function or variable may be unsafe. Consider using _gcvt_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files\microsoft visual studio 10.0\vc\include\stdlib.h(729) : see declaration of '_gcvt'
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(407): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(412): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(417): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(422): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(427): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(432): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(453): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(458): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(463): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(468): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(473): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(478): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(531): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(531): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(531): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(531): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(360): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(365): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(370): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(375): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(380): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(385): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(406): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(411): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(416): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(421): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(426): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(431): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(472): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(472): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(472): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(472): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(475): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
      1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(593): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(593): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(593): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(593): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(596): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(601): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(601): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(601): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(601): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(497): warning C4101: 'xCoord' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(497): warning C4101: 'a12' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(497): warning C4101: 'a21' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(497): warning C4101: 'yCoord' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(497): warning C4101: 'a11' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(497): warning C4101: 'a22' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(695): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(703): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(707): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(775): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(827): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(534): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(537): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(542): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(542): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(542): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(542): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(450): warning C4101: 'xCoord' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(450): warning C4101: 'a12' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(450): warning C4101: 'a21' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(450): warning C4101: 'yCoord' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(450): warning C4101: 'a11' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(450): warning C4101: 'a22' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(625): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(687): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(734): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files\microsoft visual studio 10.0\vc\include\stdlib.h(645) : see declaration of '_itow'
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(946): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(853): warning C4996: '_itow': This function or variable may be unsafe. Consider using _itow_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files\microsoft visual studio 10.0\vc\include\stdlib.h(645) : see declaration of '_itow'
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(640): warning C4101: 'xCoord' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(639): warning C4101: 'a12' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(639): warning C4101: 'a21' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(640): warning C4101: 'yCoord' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(639): warning C4101: 'a11' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(639): warning C4101: 'a22' : unreferenced local variable
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(1050): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(579): warning C4101: 'xCoord' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(578): warning C4101: 'a12' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(578): warning C4101: 'a21' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(579): warning C4101: 'yCoord' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(578): warning C4101: 'a11' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(578): warning C4101: 'a22' : unreferenced local variable
+     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\main.cpp(957): warning C4305: 'argument' : truncation from 'double' to 'float'
        ResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -102,4 +99,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.78
+Time Elapsed 00:00:06.57
