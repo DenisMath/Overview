@@ -32,7 +32,7 @@ public:
 	float tension;
 
 	ExtpairWT &operator=(const ExtpairWT &m){
-		extpair =m.extpair;
+		extpair = m.extpair;
 		tension = m.tension;
 		tension = m.tension;
 		return *this;
