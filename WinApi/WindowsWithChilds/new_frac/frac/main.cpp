@@ -120,6 +120,7 @@ int toColor8(float x, float max_temp, float min_temp, float gamma, int shift)
 ColorFunc toColor=toColor1;
 AlphaFunc toAlpha=toAlpha1;
 
+
 void SetBufferPoints( const std::vector<std::pair<float, float>> &GraphicsPoints)
 {
 	GraphicsPointsSize = GraphicsPoints.size();
@@ -133,7 +134,7 @@ void SetBufferPoints( const std::vector<std::pair<float, float>> &GraphicsPoints
 		Vertices[i].rhw = 1.0 ;
 		Vertices[i].color = 0xFFFFFF ;
 	}
-};
+}
 
 void SetBufferPointsW( const std::vector<std::pair<float, float>> &GraphicsPoints, const std::vector< float> &Tensions)
 {
@@ -167,7 +168,7 @@ void SetBufferPointsW( const std::vector<std::pair<float, float>> &GraphicsPoint
 void deleteBufferPoints()
 {
 	delete[] Vertices;
-};
+}
 
 
 
@@ -348,7 +349,7 @@ void SetBasicPoint(HWND &hWnd, float a11,float a12,float a21,float a22,float xCo
 	
 }
 
-void SetBasicPoint(HWND &hWnd, BasicPoint & bpoint )
+void SetBasicPoint(HWND &hWnd, const BasicPoint & bpoint)
 {
 	//wchar_t buff[256];
 	
@@ -420,7 +421,6 @@ void GetBasicPoint(const HWND &hWnd, BasicPoint &bpoint )
 	bpoint.transform.to = a21;
 	bpoint.transform.tt = a22;			
 }
-
 
 void AddBasicPoint(const HWND &hWnd, Fractal &fractal )
 {
@@ -494,7 +494,6 @@ void convertExistingBPoints(Extpair & centerPoint)
 	}
 
 }
-
 
 BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	//wchar_t buff[256];
@@ -627,7 +626,6 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 
 	return false;
 }
-
 
 BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	InitCommonControls();
@@ -1048,7 +1046,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	//
 	//}	
 
-	buildFractalPolygone(f, 9, 0.4, 3 );
+	buildFractalPolygone(f, 9, 0.4, 0 );
 
 	convertFractalToPairVector(f, GraphicsPoints);
 	SetBufferPoints( GraphicsPoints);

@@ -333,7 +333,7 @@ public:
 	}
 };
 
-void buildFractalPolygone( Fractal &f, int numberOfVertex = 3, float tensionCoeff = 0.5, int numberOfIteration = 7 )
+void buildFractalPolygone( Fractal &f, int numberOfVertex = 3, float tensionCoeff = 0.5, int numberOfIteration = 0)
 {
 	int n = numberOfVertex;
 	Extpair p(0,100),shp(280,330);

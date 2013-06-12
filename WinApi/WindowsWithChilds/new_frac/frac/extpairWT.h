@@ -4,6 +4,8 @@
 #include<algorithm>
 #include<math.h>
 #include "extpair.h"
+#include "vector"
+//#include "stdafx.h"
 
 //using namespace std;
 
@@ -104,5 +106,7 @@ inline
 	input.sort();
 	input.unique(equalExtpair);
 }
+
+void init_color( std::vector<ExtpairWT> input, RGBTRIPLE* color, int Width = 100, int Height = 100);
 
 #endif

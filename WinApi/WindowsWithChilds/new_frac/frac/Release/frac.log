@@ -1,5 +1,5 @@
-﻿Build started 12/28/2012 4:25:37 PM.
-     1>Project "D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" on node 2 (rebuild target(s)).
+﻿Build started 6/11/2013 7:07:26 PM.
+     1>Project "D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Release\frac.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -88,7 +88,7 @@
      1>main.cpp(646): warning C4101: 'a22' : unreferenced local variable
      1>main.cpp(1051): warning C4305: 'argument' : truncation from 'double' to 'float'
        ResourceCompile:
-         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /l"0x0409" /nologo /fo"Release\main.res" main.rc 
+         All outputs are up-to-date.
        Link:
          C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\Release\frac.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\frac.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\Release\frac.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\Release\frac.lib" /MACHINE:X86 Release\main.res
          Release\main.obj
@@ -101,8 +101,8 @@
        FinalizeBuildStatus:
          Deleting file "Release\frac.unsuccessfulbuild".
          Touching "Release\frac.lastbuildstate".
-     1>Done Building Project "D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" (rebuild target(s)).
+     1>Done Building Project "D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.57
+Time Elapsed 00:00:02.20
