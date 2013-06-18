@@ -15,6 +15,7 @@
 #include<vector>
 #include "fractal.h"
 #include <cmath>
+
 //#include "bpoint.h"
 #define PI 3.14159265
 #define ID_BUTTON 3001
@@ -29,8 +30,10 @@
 LPDIRECT3D9             g_pD3D = NULL; // Used to create the D3DDevice
 LPDIRECT3DDEVICE9       g_pd3dDevice = NULL; // Our rendering device
 LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL; // Buffer to hold Vertices
+//Fractal f;
 
 // A structure for our custom vertex type
+const int bufferSize = (1<<19);
 struct CUSTOMVERTEX
 {
 	FLOAT x, y, z, rhw; // The transformed position for the vertex
@@ -40,10 +43,25 @@ struct CUSTOMVERTEX
 // Our custom FVF, which describes our custom vertex structure
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW|D3DFVF_DIFFUSE)
 
-//std::vector<std::pair<float, float>> GraphicsPoints ;
+std::vector<std::pair<float, float>> GraphicsPoints ;
 int GraphicsPointsSize;
 //std::vector<float> Tensions;
 CUSTOMVERTEX* Vertices = new CUSTOMVERTEX[2];
+
+//CUSTOMVERTEX* BufferNullVertices = NULL;
+
+
+//void SetNullBuffer()
+//{
+//	for(int i=0; i<bufferSize; i++)
+//	{
+//		BufferNullVertices[i].x = 0 ;
+//		BufferNullVertices[i].y = 0 ;
+//		BufferNullVertices[i].z = 0.5f;
+//		BufferNullVertices[i].rhw = 1.0 ;
+//		BufferNullVertices[i].color = 0x000000 ;
+//	}
+//}
 
 HWND hMainDlg, TempChild,  hWndDirectX;
 HINSTANCE hInst;
@@ -63,6 +81,14 @@ char cbuff[256];
 std::set<HWND> basicPointsWindows;
 //Fractal f;
 
+int Sign(double input)
+{
+	if(input > 0)
+	{return 1;}
+	else if (input == 0)
+	{return 0;}
+	else {return -1;}
+}
 float toAlpha1(float x, float max_temp, float min_temp)
 {
 	return 1.0f;
@@ -228,26 +254,74 @@ HRESULT InitVB()
 	// Create the vertex buffer. Here we are allocating enough memory
 	// (from the default pool) to hold all our 3 custom Vertices. We also
 	// specify the FVF, so the vertex buffer knows what data it contains.
-
-	if( FAILED( g_pd3dDevice->CreateVertexBuffer( GraphicsPointsSize  * sizeof( CUSTOMVERTEX ),
+	
+	
+	/*if( FAILED( g_pd3dDevice->CreateVertexBuffer( bufferSize   * sizeof( CUSTOMVERTEX ),
 		0, D3DFVF_CUSTOMVERTEX,
 		D3DPOOL_DEFAULT, &g_pVB, NULL ) ) )
 	{
 		return E_FAIL;
-	}
+	}*/
 
 	// Now we fill the vertex buffer. To do this, we need to Lock() the VB to
 	// gain access to the Vertices. This mechanism is required becuase vertex
 	// buffers may be in device memory.
 	VOID* pVertices;
-	if( FAILED( g_pVB->Lock( 0, GraphicsPointsSize * sizeof( CUSTOMVERTEX ), ( void** )&pVertices, 0 ) ) )
+	if( FAILED( g_pVB->Lock( 0, bufferSize * sizeof( CUSTOMVERTEX ), ( void** )&pVertices, 0 ) ) )
 		return E_FAIL;
-	memcpy( pVertices, Vertices, GraphicsPointsSize * sizeof( CUSTOMVERTEX ) );
+
+	//memcpy( pVertices, BufferNullVertices, bufferSize * sizeof( CUSTOMVERTEX ) );
+	if(GraphicsPointsSize > bufferSize)
+	{
+		memcpy( pVertices, Vertices, bufferSize * sizeof( CUSTOMVERTEX ) );
+	}
+	else
+	{
+		memcpy( pVertices, Vertices, GraphicsPointsSize * sizeof( CUSTOMVERTEX ) );
+	}
+	//int temp = sizeof( Vertices );
+	g_pVB->Unlock();
+
+	return S_OK;
+}
+
+HRESULT FillVB()
+{
+	//Initialize three Vertices for rendering a triangle
+	//CUSTOMVERTEX Vertices[] =
+	//{
+	//    { 150.0f,  50.0f, 0.5f, 1.0f, 0xffff0000, }, // x, y, z, rhw, color
+	//    { 250.0f, 250.0f, 0.5f, 1.0f, 0xff00ff00, },
+	//    {  50.0f, 250.0f, 0.5f, 1.0f, 0xff00ffff, },
+	//};
+
+	// Create the vertex buffer. Here we are allocating enough memory
+	// (from the default pool) to hold all our 3 custom Vertices. We also
+	// specify the FVF, so the vertex buffer knows what data it contains.
+
+	
+	// Now we fill the vertex buffer. To do this, we need to Lock() the VB to
+	// gain access to the Vertices. This mechanism is required becuase vertex
+	// buffers may be in device memory.
+	VOID* pVertices;
+	if( FAILED( g_pVB->Lock( 0, bufferSize * sizeof( CUSTOMVERTEX ), ( void** )&pVertices, 0 ) ) )
+		return E_FAIL;
+	if(GraphicsPointsSize > bufferSize)
+	{
+		memcpy( pVertices, Vertices, bufferSize * sizeof( CUSTOMVERTEX ) );
+
+	}
+	else
+	{
+		memcpy( pVertices, Vertices, GraphicsPointsSize * sizeof( CUSTOMVERTEX ) );
+	}
+	
 	int temp = sizeof( Vertices );
 	g_pVB->Unlock();
 
 	return S_OK;
 }
+
 
 
 
@@ -295,7 +369,14 @@ VOID Render()
 		// of our geometry (in this case, just one triangle).
 		g_pd3dDevice->SetStreamSource( 0, g_pVB, 0, sizeof( CUSTOMVERTEX ) );
 		g_pd3dDevice->SetFVF( D3DFVF_CUSTOMVERTEX );
-		g_pd3dDevice->DrawPrimitive( D3DPT_POINTLIST, 0, GraphicsPointsSize  );
+		if(GraphicsPointsSize > bufferSize)
+	{
+		g_pd3dDevice->DrawPrimitive( D3DPT_POINTLIST, 0, bufferSize  );
+	}
+	else
+	{
+		g_pd3dDevice->DrawPrimitive( D3DPT_POINTLIST, 0, GraphicsPointsSize );	
+	}
 
 		// End the scene
 		g_pd3dDevice->EndScene();
@@ -630,7 +711,7 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	InitCommonControls();
 	static Fractal f;
-	std::vector<std::pair<float, float>> GraphicsPoints;
+	//std::vector<std::pair<float, float>> GraphicsPoints;
 	std::vector<float> Tensions;
 	int xSizeChild = 100;
 	int ySizeChild = 100;
@@ -731,10 +812,10 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 				goto labelW;
 			}
 			// Initialize Direct3D
-			if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
+			//if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
 			{
 				// Create the vertex buffer
-				if( SUCCEEDED( InitVB() ) )
+				if( SUCCEEDED( FillVB() ) )
 				{
 					// Show the window
 					Render();
@@ -900,10 +981,10 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 				goto label1;
 			}
 			// Initialize Direct3D
-			if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
+			//if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
 			{
 				// Create the vertex buffer
-				if( SUCCEEDED( InitVB() ) )
+				if( SUCCEEDED( FillVB() ) )
 				{
 					// Show the window
 					Render();
@@ -952,7 +1033,32 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 HWND hConnectButton;
 LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
-	//HWND hw;
+	static Fractal f;
+	static double angleOfTransform = 0;
+	static double tensionOfTransform = 1;
+	
+	Matrix rotationTransform;
+	std::vector<float> Tensions;
+	int xSizeChild = 100;
+	int ySizeChild = 100;
+	int xSizeCounter = 0;
+	int ySizeCounter = 0;
+	int temp_shift = 0;
+	float temp_gamma = 1;
+	int pos = 0;
+	static int counter = 0;
+	std::set<HWND>::iterator at;
+	float a11, a12, a21, a22;
+	float xCoord, yCoord;
+	BasicPoint bpoint;
+	Extpair extpair;
+	Matrix matrix;
+	int iteration;
+	BasicPoint bpointTemp;
+	double temp;
+	double temp1;
+	static int previousSign = 1;
+	
 	switch( msg )
 	{
 	case WM_CREATE:
@@ -970,12 +1076,154 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 			); 
 		ShowWindow(hMainDlg, nCmdSh);
 		break;
-		//hConnectButton=CreateWindow(L"BUTTON",L"Connect to ",WS_CHILD|WS_VISIBLE| BS_DEFPUSHBUTTON,0,0,90,20,hWnd,(HMENU)ID_BUTTON,hInst,NULL);
-		//ShowWindow(hConnectButton, nCmdSh);
-		/*	break;
-		case WM_PAINT:
 
-		break;*/
+	case WM_MOUSEWHEEL:
+
+		     angleOfTransform = GET_WHEEL_DELTA_WPARAM(wParam)/(double)WHEEL_DELTA;
+         
+			 if(TempChild != hMainDlg)
+			 {
+
+				 if (LOWORD(wParam) == MK_RBUTTON ) 
+		 {
+			 GetBasicPoint(TempChild, bpointTemp );
+			 
+			 
+			 rotationTransform.oo = cos(angleOfTransform*PI/180);
+			 rotationTransform.ot = -sin(angleOfTransform*PI/180);
+			 rotationTransform.to = sin(angleOfTransform*PI/180);
+			 rotationTransform.tt = cos(angleOfTransform*PI/180);
+
+			 bpointTemp.transform = rotationTransform * bpointTemp.transform;
+			/* bpointTemp.point.xKoord = LOWORD(lParam);
+			 bpointTemp.point.yKoord = HIWORD(lParam);
+*/
+			 SetBasicPoint(TempChild, bpointTemp );
+
+			 CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETE,
+				IDC_BUILDING,
+				IDC_BUILDING);
+
+			iteration = GetDlgItemInt(hMainDlg, IDC_ITERATIONNUMBER, NULL, FALSE );
+			f.fracsetW.clear();
+			f.basicpoints.clear();
+			//at = basicPointsWindows.begin();
+			for(at = basicPointsWindows.begin(); at != basicPointsWindows.end(); at++)
+			{
+				AddBasicPoint( *at , f );
+			}
+
+			labelW:
+			try{
+			f.buildW(iteration, switcherAlpha);
+			//buildFractalPolygone(f);
+			wConvertFractalToPairVector(f, GraphicsPoints, Tensions);
+			SetBufferPointsW( GraphicsPoints, Tensions);}
+			catch(...)
+			{
+				iteration -= 1;
+				goto labelW;
+			}
+			// Initialize Direct3D
+			//if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
+			{
+				// Create the vertex buffer
+				if( SUCCEEDED( FillVB() ) )
+				{
+					// Show the window
+					Render();
+					UpdateWindow( hWndDirectX );	
+				}
+			}
+			
+			//SendMessage(hWnd, WM_PAINT, NULL, NULL);
+			CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETE,
+				IDC_BUILDING,
+				IDC_COMPLETE);
+
+		 }
+				 else{
+				  GetBasicPoint(TempChild, bpointTemp );
+
+				  temp1 = previousSign*bpointTemp.transform.SetTension();
+				  temp = (GET_WHEEL_DELTA_WPARAM(wParam)/(double)WHEEL_DELTA);
+			      previousSign = Sign(tensionOfTransform);
+				  tensionOfTransform = temp1 + 0.1*temp;
+				  while( (tensionOfTransform < 0.05) && (tensionOfTransform > -0.05) )
+				  { 
+					  tensionOfTransform = 0.1*temp;
+					  }
+				  
+				 
+				  if(previousSign == Sign(tensionOfTransform))
+				  {
+				       bpointTemp.transform = float(abs(tensionOfTransform/ temp1 ))*bpointTemp.transform;
+				  }
+				  else
+				  {
+					  bpointTemp.transform = float(-abs(tensionOfTransform/ temp1 ))*bpointTemp.transform;
+				  }
+					  
+				  
+	        convertfloatToWchar(abs(float(tensionOfTransform)), buff);
+	        SetDlgItemText(TempChild,IDC_TENSIONCOEFF,buff);
+
+			 SetBasicPoint(TempChild, bpointTemp );
+
+			 CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETE,
+				IDC_BUILDING,
+				IDC_BUILDING);
+
+			iteration = GetDlgItemInt(hMainDlg, IDC_ITERATIONNUMBER, NULL, FALSE );
+			f.fracsetW.clear();
+			f.basicpoints.clear();
+			//at = basicPointsWindows.begin();
+			for(at = basicPointsWindows.begin(); at != basicPointsWindows.end(); at++)
+			{
+				AddBasicPoint( *at , f );
+			}
+
+			labelW3:
+			try{
+			f.buildW(iteration, switcherAlpha);
+			//buildFractalPolygone(f);
+			wConvertFractalToPairVector(f, GraphicsPoints, Tensions);
+			SetBufferPointsW( GraphicsPoints, Tensions);}
+			catch(...)
+			{
+				iteration -= 1;
+				goto labelW3;
+			}
+			// Initialize Direct3D
+			//if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
+			{
+				// Create the vertex buffer
+				if( SUCCEEDED( FillVB() ) )
+				{
+					// Show the window
+					Render();
+					UpdateWindow( hWndDirectX );	
+				}
+			}
+			
+			//SendMessage(hWnd, WM_PAINT, NULL, NULL);
+			CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETE,
+				IDC_BUILDING,
+				IDC_COMPLETE);
+
+		 }
+				 
+		 }
+        break;
+
 	case WM_LBUTTONDOWN:
 		if(TempChild == hMainDlg)
 		{
@@ -986,6 +1234,54 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		{
 		SetDlgItemInt(TempChild,IDC_X, LOWORD(lParam) , FALSE);
 		SetDlgItemInt(TempChild,IDC_Y, HIWORD(lParam) , FALSE);
+
+
+			 CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETE,
+				IDC_BUILDING,
+				IDC_BUILDING);
+
+			iteration = GetDlgItemInt(hMainDlg, IDC_ITERATIONNUMBER, NULL, FALSE );
+			f.fracsetW.clear();
+			f.basicpoints.clear();
+			//at = basicPointsWindows.begin();
+			for(at = basicPointsWindows.begin(); at != basicPointsWindows.end(); at++)
+			{
+				AddBasicPoint( *at , f );
+			}
+
+			labelW1:
+			try{
+			f.buildW(iteration, switcherAlpha);
+			//buildFractalPolygone(f);
+			wConvertFractalToPairVector(f, GraphicsPoints, Tensions);
+			SetBufferPointsW( GraphicsPoints, Tensions);}
+			catch(...)
+			{
+				iteration -= 1;
+				goto labelW1;
+			}
+			// Initialize Direct3D
+			//if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
+			{
+				// Create the vertex buffer
+				if( SUCCEEDED( FillVB() ) )
+				{
+					// Show the window
+					Render();
+					UpdateWindow( hWndDirectX );	
+				}
+			}
+			
+			//SendMessage(hWnd, WM_PAINT, NULL, NULL);
+			CheckRadioButton(
+				hMainDlg,
+				IDC_COMPLETE,
+				IDC_BUILDING,
+				IDC_COMPLETE);
+
+		 
 		}
 		break;
 	case WM_DESTROY:
@@ -1026,6 +1322,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	LPSTR     lpCmdLine,
 	int       nCmdShow)
 {
+	/*BufferNullVertices = new CUSTOMVERTEX[bufferSize];
+    SetNullBuffer();*/
 	Fractal f;
 	std::vector<std::pair<float, float>> GraphicsPoints ;
 	hInst = hInstance;
@@ -1064,13 +1362,22 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	WS_OVERLAPPEDWINDOW, lpMainDialogRect->right, 0, lpDesktopWindow->right - lpMainDialogRect->right , lpDesktopWindow->bottom,
 	NULL, NULL, wc.hInstance, NULL );*/
 
+	/*hWndDirectX = CreateWindow( L"D3D Tutorial", L"Self-Affine Plite",
+		 WS_OVERLAPPEDWINDOW | WS_MAXIMIZE, lpMainDialogRect->right, 0, lpDesktopWindow->right - lpMainDialogRect->right , lpDesktopWindow->bottom,
+		NULL, NULL, wc.hInstance, NULL );*/
 	hWndDirectX = CreateWindow( L"D3D Tutorial", L"Self-Affine Plite",
-		WS_OVERLAPPEDWINDOW, lpMainDialogRect->right, 0, lpDesktopWindow->right - lpMainDialogRect->right , lpDesktopWindow->bottom,
+		WS_OVERLAPPEDWINDOW , 0, 0, lpDesktopWindow->right , lpDesktopWindow->bottom,
 		NULL, NULL, wc.hInstance, NULL );
 
 	// Initialize Direct3D
 	if( SUCCEEDED( InitD3D( hWndDirectX ) ) )
 	{
+		if( FAILED( g_pd3dDevice->CreateVertexBuffer( bufferSize   * sizeof( CUSTOMVERTEX ),
+		0, D3DFVF_CUSTOMVERTEX,
+		D3DPOOL_DEFAULT, &g_pVB, NULL ) ) )
+	      {
+		       return E_FAIL;
+	      }
 		// Create the vertex buffer
 		if( SUCCEEDED( InitVB() ) )
 		{
