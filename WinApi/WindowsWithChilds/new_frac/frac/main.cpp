@@ -20,8 +20,10 @@
 #define PI 3.14159265
 #define ID_BUTTON 3001
 #define IDC_DRAW 3002
+
 #define DELETE_MSG WM_USER + 1
 #define DRAW_MSG WM_USER + 2
+#define MY_MOUSEWHEEL WM_USER + 3
 
 
 //-----------------------------------------------------------------------------
@@ -63,7 +65,7 @@ CUSTOMVERTEX* Vertices = new CUSTOMVERTEX[2];
 //	}
 //}
 
-HWND hMainDlg, TempChild,  hWndDirectX;
+HWND hMainDlg, TempChild, TempChild1,  hWndDirectX;
 HINSTANCE hInst;
 LPRECT lpMainDialogRect = new RECT;
 LPRECT lpMainDialogRectChild = new RECT;
@@ -79,6 +81,7 @@ int switcherAlpha = 0;
 wchar_t buff[256];
 char cbuff[256];
 std::set<HWND> basicPointsWindows;
+WPARAM myWParam;
 //Fractal f;
 
 int Sign(double input)
@@ -586,10 +589,22 @@ BOOL CALLBACK ChildDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 	double a11, a12, a21, a22, xCoord, yCoord;
 	BasicPoint bpoint;
 	switch(uMsg) {
+		case WM_CREATE:
+			TempChild1 = hWnd;
+			break;
 	case WM_ACTIVATE:
 		TempChild = hWnd;
+		TempChild1 = hWnd;
 		temp_pos = (100.0 - SendDlgItemMessage(hWnd, IDC_TENSION, TBM_GETPOS, 0,0));
 		break;
+
+		case  WM_MOUSEWHEEL:
+			SendMessage(
+   hWndDirectX,
+    WM_MOUSEWHEEL,
+    wParam, 0);
+			myWParam = wParam; 
+	break;
 	case WM_VSCROLL:
 
 		switch(LOWORD(wParam))
@@ -758,6 +773,13 @@ BOOL CALLBACK MainDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM) {
 		case WM_ACTIVATE:
 		TempChild = hWnd;
 		break;
+		case  WM_MOUSEWHEEL:
+			SendMessage(
+   hWndDirectX,
+   WM_MOUSEWHEEL,
+    wParam, 0);
+			myWParam = wParam; 
+			break;
 		case WM_HSCROLL:
 		switch(LOWORD(wParam))
 		{
@@ -1076,17 +1098,16 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 			); 
 		ShowWindow(hMainDlg, nCmdSh);
 		break;
-
+	
 	case WM_MOUSEWHEEL:
-
+		     
 		     angleOfTransform = GET_WHEEL_DELTA_WPARAM(wParam)/(double)WHEEL_DELTA;
-         
-			 if(TempChild != hMainDlg)
-			 {
+     
+			 
 
-				 if (LOWORD(wParam) == MK_RBUTTON ) 
+				 if (LOWORD(wParam) == MK_CONTROL ) 
 		 {
-			 GetBasicPoint(TempChild, bpointTemp );
+			 GetBasicPoint(TempChild1, bpointTemp );
 			 
 			 
 			 rotationTransform.oo = cos(angleOfTransform*PI/180);
@@ -1098,7 +1119,7 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 			/* bpointTemp.point.xKoord = LOWORD(lParam);
 			 bpointTemp.point.yKoord = HIWORD(lParam);
 */
-			 SetBasicPoint(TempChild, bpointTemp );
+			 SetBasicPoint(TempChild1, bpointTemp );
 
 			 CheckRadioButton(
 				hMainDlg,
@@ -1147,15 +1168,15 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 
 		 }
 				 else{
-				  GetBasicPoint(TempChild, bpointTemp );
+				  GetBasicPoint(TempChild1, bpointTemp );
 
 				  temp1 = previousSign*bpointTemp.transform.SetTension();
 				  temp = (GET_WHEEL_DELTA_WPARAM(wParam)/(double)WHEEL_DELTA);
 			      previousSign = Sign(tensionOfTransform);
-				  tensionOfTransform = temp1 + 0.1*temp;
-				  while( (tensionOfTransform < 0.05) && (tensionOfTransform > -0.05) )
+				  tensionOfTransform = temp1 + 0.01*temp;
+				  while( (tensionOfTransform < 0.005) && (tensionOfTransform > -0.005) )
 				  { 
-					  tensionOfTransform = 0.1*temp;
+					  tensionOfTransform = 0.01*temp;
 					  }
 				  
 				 
@@ -1170,9 +1191,9 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 					  
 				  
 	        convertfloatToWchar(abs(float(tensionOfTransform)), buff);
-	        SetDlgItemText(TempChild,IDC_TENSIONCOEFF,buff);
+	        SetDlgItemText(TempChild1,IDC_TENSIONCOEFF,buff);
 
-			 SetBasicPoint(TempChild, bpointTemp );
+			 SetBasicPoint(TempChild1, bpointTemp );
 
 			 CheckRadioButton(
 				hMainDlg,
@@ -1221,7 +1242,7 @@ LRESULT WINAPI MsgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 
 		 }
 				 
-		 }
+		 
         break;
 
 	case WM_LBUTTONDOWN:

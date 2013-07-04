@@ -1,25 +1,9 @@
-﻿Build started 6/18/2013 7:43:17 PM.
-     1>Project "D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
-         Touching "Release\frac.unsuccessfulbuild".
-       ClCompile:
-         All outputs are up-to-date.
-       ResourceCompile:
-         All outputs are up-to-date.
-       Link:
-         C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\Release\frac.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\frac.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\Release\frac.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\Release\frac.lib" /MACHINE:X86 Release\main.res
-         Release\main.obj
-         Generating code
-     1>d:\gith_my\overview\winapi\windowswithchilds\new_frac\frac\matrix.h(52): warning C4723: potential divide by 0
-         Finished generating code
-         frac.vcxproj -> D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\Release\frac.exe
-       Manifest:
-         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\Release\frac.exe;#1" /manifest Release\frac.exe.intermediate.manifest
-       FinalizeBuildStatus:
-         Deleting file "Release\frac.unsuccessfulbuild".
-         Touching "Release\frac.lastbuildstate".
-     1>Done Building Project "D:\GitH_My\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" (build target(s)).
+﻿Build started 01.07.2013 20:35:57.
+     1>Project "D:\GitHub\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         frac.vcxproj -> D:\GitHub\Overview\WinApi\WindowsWithChilds\new_frac\Release\frac.exe
+     1>Done Building Project "D:\GitHub\Overview\WinApi\WindowsWithChilds\new_frac\frac\frac.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.23
+Time Elapsed 00:00:00.05
